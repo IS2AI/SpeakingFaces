@@ -8,7 +8,7 @@ import os
 import numpy as np
 
 # obtain a path to a thermal image
-def pathToThermalImage(rgbImagePath, dataset_path, thermal_image_folder="/thr_image/"):
+def pathToThermalImage(rgbImagePath, dataset_path, thermal_image_folder):
 	# modify the visible image file name to obtain 
 	# the corresponding thermal video file name
 	rgb_file = list(rgbImagePath.split(os.path.sep)[-1])
