@@ -90,7 +90,7 @@ for rgbImagePath in rgbImagePaths:
 		# warp the rgb image
 		# to align with the thermal image
 		rgb = cv2.warpPerspective(rgb, H, (W_thr, H_thr), 
-			flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REPLICATE)
+			flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
 
 		if args["show"]:
 			# make a copy of the rgb image
