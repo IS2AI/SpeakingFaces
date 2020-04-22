@@ -12,7 +12,7 @@ def pathToThermalImage(rgbImagePath, dataset_path, thermal_image_folder="/thr_im
 	# modify the visible image file name to obtain 
 	# the corresponding thermal video file name
 	rgb_file = list(rgbImagePath.split(os.path.sep)[-1])
-	rgb_file[-5] = '0'
+	rgb_file[-5] = '1'
 
 	# return the path to the thermal video 
 	return dataset_path + thermal_image_folder + ''.join(rgb_file)

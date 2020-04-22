@@ -44,7 +44,7 @@ createDirectory(path)
 for rgbImagePath in rgbImagePaths:
 
 	# extract the current image info
-	sub, trial, pos, image_id = rgbImagePath.split("/")[-1].split("_")[-5:-1]
+	sub, trial, session, pos, image_id = rgbImagePath.split("/")[-1].split("_")[-6:-1]
 
 	# process images for the position
 	# given by the argument only if "show" mode
@@ -90,7 +90,7 @@ for rgbImagePath in rgbImagePaths:
 		# warp the rgb image
 		# to align with the thermal image
 		rgb = cv2.warpPerspective(rgb, H, (W_thr, H_thr), 
-			flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REPLICATE)
+			flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
 
 		if args["show"]:
 			# make a copy of the rgb image
@@ -100,12 +100,11 @@ for rgbImagePath in rgbImagePaths:
 			rgb_copy[:, :, 2] = thr[:, :, 2]
 
 			# show the images
-			cv2.imshow("Sub:{} Trial:{} Pos:{} Frame:{}".format(sub, trial, pos, image_id), np.hstack([rgb, thr, rgb_copy]))
-			#cv2.imwrite("Sub:{} Trial:{} Pos:{} Frame:{}.png".format(sub, trial, pos, image_id), np.hstack([rgb, thr, rgb_copy]))
+			cv2.imshow("Sub:{} Trial:{} Session:{} Pos:{} Frame:{}".format(sub, trial, session, pos, image_id), np.hstack([rgb, thr, rgb_copy]))
 			key = cv2.waitKey(0) & 0xFF
 
 			# if the 'q' key is pressed, stop the loop
 			if key == ord("q"):
 				break
 
-		cv2.imwrite("{}{}_{}_{}_{}_2.png".format(path, sub, trial, pos, image_id), rgb)
+		cv2.imwrite("{}{}_{}_{}_{}_{}.png".format(path, sub, trial, session, pos, image_id), rgb)
