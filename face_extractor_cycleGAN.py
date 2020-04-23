@@ -78,7 +78,7 @@ for rgbImagePath in rgbImagePaths:
 
 		# construct the thermal 
 		# image path using the rgb image path
-		thrImagePath = path_to_thermal_image(rgbImagePath, dataset_path)
+		thrImagePath = path_to_thermal_image(rgbImagePath, dataset_path, os.path.sep+"thr_image"+os.path.sep)
 		
 		# load rgb and corresponding thermal image 
 		rgb = cv2.imread(rgbImagePath)
