@@ -30,19 +30,18 @@ args = vars(ap.parse_args())
 
 # load matched features from xlsx file
 # and convert it numpy array 
-df = pd.read_excel (r'calibration/matched_features.xlsx')
+df = pd.read_excel (r'calibration'+os.path.sep+'matched_features.xlsx')
 M = df.to_numpy()
 
 #set the option in 
 opt = "_cmd" if args["session"] == 2 else ""
 
 # grab the path to the visual images in our dataset
-dataset_path = "{}sub_{}/trial_{}".format(args["dataset"], args["sub_info"][0],
-					args["sub_info"][1])  
-rgb_image_paths = list(paths.list_images(dataset_path + "/rgb_image{}".format(opt)))
+dataset_path = "{}sub_{}".format(args["dataset"], args["sub_info"][0])+os.path.sep+"trial_{}".format(args["sub_info"][1])  
+rgb_image_paths = list(paths.list_images(dataset_path + os.path.sep+"rgb_image{}".format(opt)))
 
 # create a directory to save images
-path = dataset_path + "/rgb_image{}_aligned/".format(opt)
+path = dataset_path + os.path.sep+"rgb_image{}_aligned".format(opt)+os.path.sep
 createDirectory(path)
 
 # loop over images in the folders
@@ -50,11 +49,11 @@ for rgb_image_path in rgb_image_paths:
 
     # extract the current image info
     if args["session"] == 1:
-        sub, trial, session, pos, image_id = rgb_image_path.split("/")[-1].split("_")[-6:-1]
+        sub, trial, session, pos, image_id = rgb_image_path.split(os.path.sep)[-1].split("_")[-6:-1]
         command = -1
         rgb_image_aligned_path = "{}{}_{}_{}_{}_{}_3.png".format(path, sub, trial, session, pos, image_id)
     else:
-        sub, trial, session, pos, command, image_id = rgb_image_path.split("/")[-1].split("_")[-7:-1]
+        sub, trial, session, pos, command, image_id = rgb_image_path.split(os.path.sep)[-1].split("_")[-7:-1]
         rgb_image_aligned_path = "{}{}_{}_{}_{}_{}_{}_3.png".format(path, sub, trial, session, pos, command, image_id)
     #print(rgb_image_aligned_path)
     #print(rgb_image_path)
@@ -77,10 +76,10 @@ for rgb_image_path in rgb_image_paths:
 
     # process only n'th frames  
     if int(image_id) % args["frame"] == 0:
-        print("[INFO] processing image {}".format(rgb_image_path.split("/")[-1]))
+        print("[INFO] processing image {}".format(rgb_image_path.split(os.path.sep)[-1]))
 
         # construct the thermal image path using the rgb image path
-        thr_image_path = pathToThermalImage(rgb_image_path, dataset_path, "/thr_image{}/".format(opt))
+        thr_image_path = pathToThermalImage(rgb_image_path, dataset_path, os.path.sep+"thr_image{}".format(opt)+os.path.sep)
         print(thr_image_path) 
         # load rgb and corresponding thermal image 
         rgb = cv2.imread(rgb_image_path)
@@ -88,12 +87,12 @@ for rgb_image_path in rgb_image_paths:
 
         # grab a size of the thermal image 
         (H_thr, W_thr) = thr.shape[:2]
-
+        
         # warp the rgb image
         # to align with the thermal image
         rgb = cv2.warpPerspective(rgb, H, (W_thr, H_thr), 
                 flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
-
+        
         if args["show"]:
             # make a copy of the rgb image
             # then replace its RED channel with 
@@ -110,3 +109,4 @@ for rgb_image_path in rgb_image_paths:
                     break
     
         cv2.imwrite(rgb_image_aligned_path, rgb)
+        
