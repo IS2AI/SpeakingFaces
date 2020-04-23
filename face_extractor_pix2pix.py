@@ -1,9 +1,9 @@
 # import the necessary packages
 from imutils import paths
-from speakingfacespy.imtools import pathToThermalImage
+from speakingfacespy.imtools import path_to_thermal_image
 from speakingfacespy.imtools import face_region_extractor
-from speakingfacespy.imtools import homography_matrix
-from speakingfacespy.imtools import createDirectory
+from speakingfacespy.imtools import get_homography_matrix
+from speakingfacespy.imtools import make_dir
 import imutils
 import numpy as np
 import pandas as pd
@@ -39,7 +39,7 @@ M = df.to_numpy()
 # estimate a homoghraphy matrix
 # which will be used to align visible 
 # and thermal frames
-H = homography_matrix(M, N=1000)
+H = get_homography_matrix(M, N=1000)
 
 # shifts in x and y axises
 dx = args["dx"]
@@ -63,7 +63,7 @@ elif args["type"] == "val":
 else:
 	path = dataset_path + "/pix2pix/test/"
 
-createDirectory(path)
+make_dir(path)
 
 # loop over images in the folders
 for rgbImagePath in rgbImagePaths:
@@ -77,7 +77,7 @@ for rgbImagePath in rgbImagePaths:
 
 		# construct the thermal 
 		# image path using the rgb image path
-		thrImagePath = pathToThermalImage(rgbImagePath, dataset_path)
+		thrImagePath = path_to_thermal_image(rgbImagePath, dataset_path)
 		
 		# load rgb and corresponding thermal image 
 		rgb = cv2.imread(rgbImagePath)

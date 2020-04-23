@@ -8,7 +8,7 @@ import os
 import numpy as np
 
 # obtain a path to a thermal image
-def pathToThermalImage(rgbImagePath, dataset_path, thermal_image_folder):
+def path_to_thermal_image(rgbImagePath, dataset_path, thermal_image_folder):
 	# modify the visible image file name to obtain 
 	# the corresponding thermal video file name
 	rgb_file = list(rgbImagePath.split(os.path.sep)[-1])
@@ -143,7 +143,7 @@ def lip_region_extractor(face_net, visible_image, thermal_image, threshold, dnn_
 		return (None, None, None, None)
 
 
-def homography_matrix(M, dx, dy, N=40):
+def get_homography_matrix(M, dx, dy, N=40):
 	# define matching point coordinates between two images
 	ptsA = M[:N,3:]
 	ptsA[:,0] = ptsA[:,0] + dx
@@ -157,7 +157,7 @@ def homography_matrix(M, dx, dy, N=40):
 	return H
 
 
-def createDirectory(dirName):
+def make_dir(dirName):
 	# Create target directory & all intermediate directories if don't exists
 	if not os.path.exists(dirName):
 		os.makedirs(dirName)

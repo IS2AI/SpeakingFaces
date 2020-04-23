@@ -1,7 +1,6 @@
 # import the necessary packages
 from imutils import paths
-from speakingfacespy.imtools import homography_matrix
-from speakingfacespy.imtools import createDirectory
+from speakingfacespy.imtools import make_dir
 import imutils
 import numpy as np
 import cv2 
@@ -25,31 +24,28 @@ ap.add_argument("-i", "--sub_info",  nargs='+', type=int,
 	help="subject info: ID, trial #")
 ap.add_argument("-s", "--show", type=int, default=0,
 	help="visualize extracted faces")
+ap.add_argument("-k", "--stack", type=int, default=4,
+	help ="choose which stream to add to the stack, 0 - all, 1 - only aligned, 2 - only red ")
 args = vars(ap.parse_args())
 
-# load matched features from xlsx file
-# and convert it numpy array 
-df = pd.read_excel (r'calibration/matched_features.xlsx')
-M = df.to_numpy()
-
-# estimate a homoghraphy matrix
-# which will be used to align visible 
-# and thermal frames
-H = homography_matrix(M, N=1300)
-
-# shifts in x and y axises
+# initialize shifts in x and y axises
 dx = args["dx"]
 dy = args["dy"]
+
+ptsA = np.array([[399 + dx, 345 + dy], [423 + dx, 293 + dy], [293 + dx, 316 + dy], [269 + dx, 368 + dy]])
+ptsB = np.array([[249, 237], [267, 196], [169, 214], [151, 254]])
+# estimate a homography matrix to warp the visible image
+(H, status) = cv2.findHomography(ptsA, ptsB, cv2.RANSAC, 2.0)
 
 # grab the path to the visual videos in our dataset
 dataset_path = "{}sub_{}/trial_{}/".format(args["dataset"], args["sub_info"][0],
 					args["sub_info"][1])  
-rgbVideoPaths = list(paths.list_files(dataset_path + args["video"]))
-
+rgbVideoPaths = list(paths.list_files(dataset_path + args["video"], validExts=('.avi',)))
+print(rgbVideoPaths)
 # create a directory to 
 # save aligned videos 
 rgbDir = dataset_path + "/" + args["video"] + "_aligned/" 
-createDirectory(rgbDir)
+make_dir(rgbDir)
 
 # loop over videos in the folders
 for rgbVideoPath in rgbVideoPaths:
@@ -97,33 +93,32 @@ for rgbVideoPath in rgbVideoPaths:
 		warpedRGB = cv2.warpPerspective(frameRGB, H, (W_thr, H_thr), 
 			flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REPLICATE)
 
-		# adjust the alignment if there is still 
-		# some misalignment among x and y axises
-		warpedRGB = warpedRGB[dy:H_thr, dx:W_thr]
-		frameThr = frameThr[0:H_thr - dy, 0:W_thr - dx]
+		# create a stack of images
+		rgb_copy = warpedRGB.copy()
+		rgb_copy[:, :, 2] = frameThr[:, :, 2]
+		if args["stack"] == 2:
+			stack_image = np.hstack([warpedRGB])
+		elif args["stack"] == 3:
+			stack_image = np.hstack([rgb_copy])
+		else:
+			stack_image = np.hstack([frameThr, warpedRGB, rgb_copy])
 
 		# check if the video writer is None
 		if writer is None:
 			# initialize our video writer
 			fourcc = cv2.VideoWriter_fourcc(*"MJPG")
-			filename = rgbDir + "/{}_{}_{}_1.avi".format(sub, trial, pos, 1) 
+			filename = rgbDir + "/{}_{}_{}_{}.avi".format(sub, trial, pos, args["stack"])
 			writer = cv2.VideoWriter(filename, fourcc, 28,
-				(warpedRGB.shape[1], warpedRGB.shape[0]), True)
+				(stack_image.shape[1], stack_image.shape[0]), True)
 
 		# write the output frame to disk
-		writer.write(warpedRGB)
+		writer.write(stack_image)
 
 		# show the aligned frames 
 		# and extracted lip regions
 		if args["show"]:
-			# make a copy of the warpedRGB image
-			# then replace its RED channel by the 
-			# RED channel of the thermal image
-			rgb_copy = warpedRGB.copy()
-			rgb_copy[:, :, 2] = frameThr[:, :, 2]
-
 			# show the images
-			cv2.imshow("Output", np.hstack([warpedRGB, frameThr, rgb_copy]))
+			cv2.imshow("Output", stack_image)
 			key = cv2.waitKey(1) & 0xFF
 
 			# if the 'q' key is pressed, 
