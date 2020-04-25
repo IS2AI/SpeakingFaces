@@ -68,8 +68,8 @@ for rgb_image_filepath in rgb_image_filepaths:
     else:
         sub_id, trial_id, session_id, pos_id, command_id, frame_id = rgb_image_filepath.split(os.path.sep)[-1].split("_")[-7:-1]
         rgb_image_aligned_filepath = "{}{}_{}_{}_{}_{}_{}_3.png".format(rgb_image_aligned_path, sub_id, trial_id, session_id, pos_id, command_id, frame_id)
-        #rgb_lip_aligned_filepath = "{}{}_{}_{}_{}_{}_{}_4.png".format(lip_rgb_path, sub_id, trial_id, session_id, pos_id, command_id, frame_id) 
-        #thr_lip_aligned_filepath = "{}{}_{}_{}_{}_{}_{}_5.png".format(lip_thr_path, sub_id, trial_id, session_id, pos_id, command_id, frame_id)
+        rgb_lip_aligned_filepath = "{}{}_{}_{}_{}_{}_{}_4.png".format(lip_rgb_path, sub_id, trial_id, session_id, pos_id, command_id, frame_id) 
+        thr_lip_aligned_filepath = "{}{}_{}_{}_{}_{}_{}_5.png".format(lip_thr_path, sub_id, trial_id, session_id, pos_id, command_id, frame_id)
     
     # process only the files for the given position if "show" mode is enabled. 
     if args["sub_info"][2] != int(pos_id) and args["show"]:
@@ -85,7 +85,9 @@ for rgb_image_filepath in rgb_image_filepaths:
     
     # estimate a homography matrix to warp the visible image
     (H, status) = cv2.findHomography(ptsA, ptsB, cv2.RANSAC, 2.0)
-
+    print(rgb_lip_aligned_filepath)
+    print(thr_lip_aligned_filepath)
+    
     # process only n'th frames  
     if int(frame_id) % args["frame"] == 0:
         print("[INFO] processing image {}".format(rgb_image_filepath.split(os.path.sep)[-1]))
@@ -140,5 +142,6 @@ for rgb_image_filepath in rgb_image_filepaths:
         # write the aligned rgb image
         cv2.imwrite(rgb_image_aligned_filepath, rgb)
         # write the extracted lip region
-        #cv2.imwrite(rgb_lip_aligned_filepath, lip_rgb)
-        #cv2.imwrite(thr_lip_aligned_filepath, lip_thr)
+        cv2.imwrite(rgb_lip_aligned_filepath, lip_rgb)
+        cv2.imwrite(thr_lip_aligned_filepath, lip_thr)
+    
