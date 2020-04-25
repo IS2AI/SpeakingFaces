@@ -161,6 +161,6 @@ def make_dir(dirName):
 	# Create target directory & all intermediate directories if don't exists
 	if not os.path.exists(dirName):
 		os.makedirs(dirName)
-		print("Directory " , dirName ,  " Created ")
+		print("[INFO] Directory " , dirName ,  " created")
 	else:
-		print("Directory " , dirName ,  " already exists") 
+		print("[INFO] Directory " , dirName ,  " already exists") 
