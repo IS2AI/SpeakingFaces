@@ -146,7 +146,7 @@ for rgbVideoPath in rgbVideoPaths:
 			for (x, y) in shape:
 				cv2.circle(rgb_copy, (x, y), 2, (0, 255, 0), -1)
 
-			rgb_copy[:, :, 2] = frameThr[:, :, 2]
+			rgb_copy[:, :, 2] = q
 
 			# show the images
 			cv2.imshow("Output", np.hstack([warpedRGB, frameThr, rgb_copy]))

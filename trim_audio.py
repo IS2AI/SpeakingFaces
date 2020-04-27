@@ -24,7 +24,7 @@ def trim_audio(audio_trim_path, length_audio_trim,to_trim_mic_id, to_trim_new_di
         
 
 def trim_audio_by_sub_trial(dataset_path, set_name, sub_id, trial_id):
-    print("trim all audio files given sub_id = {}, trial_id = {}".format(sub_id, trial_id))
+    print("[INFO] trim all audio files given sub_id = {}, trial_id = {}".format(sub_id, trial_id))
     audio_trim_paths = glob.glob('{}{}_data/sub_{}/trial_{}/*_trim/*.wav'.format(dataset_path, set_name, sub_id, trial_id))        
     
     is_mic1_audio_trim = (audio_trim_paths[0].split('/')[-2].find('1')!=-1)
