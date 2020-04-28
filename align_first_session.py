@@ -2,10 +2,10 @@ import pandas as pd
 import os
 split = 'train'
 dataset_path = '/mnt/sdb/SpeakingFaces/{}_data/'.format(split)
-alignment_filepath = '/home/test/Documents/SpeakingFaces/metadata/alignment_info_{}.csv'.format(split)
+alignment_filepath = '/home/test/Documents/Github/SpeakingFaces/metadata/alignment_info_{}.csv'.format(split)
 alignment_data = pd.read_csv(alignment_filepath)
 
-for i in range(0, 60):
+for i in range(40, 60):
     dx_str = alignment_data.iloc[i].dx
     dy_str = alignment_data.iloc[i].dy
     #can be anything lets set the pos_id to 1
