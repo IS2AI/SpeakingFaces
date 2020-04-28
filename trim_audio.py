@@ -29,10 +29,9 @@ def trim_audio_by_sub_trial(dataset_path, set_name, sub_id, trial_id):
     
     is_mic1_audio_trim = (audio_trim_paths[0].split('/')[-2].find('1')!=-1)
     to_trim_mic_id = 2 if is_mic1_audio_trim else 1
+    to_trim_dir = '{}{}_data/sub_{}/trial_{}/mic{}_audio_cmd_trim'.format(dataset_path, set_name, sub_id, trial_id, to_trim_mic_id)
     if not os.path.exists(to_trim_dir):
-        to_trim_dir = '{}{}_data/sub_{}/trial_{}/mic{}_audio_cmd_trim'.format(dataset_path, set_name, sub_id, trial_id, to_trim_mic_id)
         make_dir(to_trim_dir)
-        
         for audio_trim_path in audio_trim_paths:
             print('[INFO] reading already trimmed audio file: '+audio_trim_path)
             sample_rate_trim, audio_trim = scipy.io.wavfile.read(audio_trim_path)
