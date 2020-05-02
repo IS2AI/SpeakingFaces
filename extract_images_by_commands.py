@@ -43,7 +43,6 @@ def extract_frames_by_sub_trial(dataset_path, set_name, sub_id, trial_id):
     audio_trim_filepaths = glob.glob(data_path +'mic1_audio_cmd_trim'+os.path.sep+'*.wav')
     make_dir(data_path+'thr_image_cmd/')
     make_dir(data_path+'rgb_image_cmd/')
-    print(data_path +'mic1_audio_cmd_trim'+os.path.sep+'*.wav')
     for audio_trim_filepath in audio_trim_filepaths:
         audio_trim_filename = audio_trim_filepath.split(os.path.sep)[-1]
         print('[INFO] reading already trimmed audio file: '+audio_trim_filename)
