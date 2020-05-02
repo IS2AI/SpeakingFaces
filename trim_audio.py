@@ -4,11 +4,9 @@ import scipy.io.wavfile
 import argparse
 from speakingfacespy.imtools import make_dir
 
-def trim_audio(audio_trim_filepath, length_audio_trim,to_trim_mic_id, to_trim_new_dir):
+def trim_audio(audio_trim_filename, length_audio_trim,to_trim_mic_id, to_trim_new_dir):
     #trim the corresponding other mic audio
-    audio_trim_filename = audio_trim_filepath.split(os.path.sep)[-1] 
-    audio_trim_filename_split = audio_trim_filename.split('_') 
-    audio_to_trim_filename  = '_'.join(audio_trim_filename_split[:-1])+'_{}.wav'.format(to_trim_mic_id)
+    audio_to_trim_filename  = '_'.join(audio_trim_filename.split('_')[:-1])+'_{}.wav'.format(to_trim_mic_id)
     audio_to_trim_new_filepath = to_trim_new_dir+os.path.sep+audio_to_trim_filename
     
     if not os.path.exists(audio_to_trim_new_filepath):
@@ -25,23 +23,26 @@ def trim_audio(audio_trim_filepath, length_audio_trim,to_trim_mic_id, to_trim_ne
 
 def trim_audio_by_sub_trial(dataset_path, set_name, sub_id, trial_id):
     print("[INFO] trim all audio files given sub_id = {}, trial_id = {}".format(sub_id, trial_id))
-    audio_trim_filepaths = glob.glob('{}{}_data{}sub_{}{}trial_{}{}*_trim{}*.wav'.format(
-        dataset_path, set_name, os.path.sep, sub_id, os.path.sep, trial_id, os.path.sep, os.path.sep))        
+    data_path = '{}{}_data{}sub_{}{}trial_{}{}'.format(
+        dataset_path, set_name, os.path.sep, sub_id, 
+        os.path.sep, trial_id, os.path.sep)
+
+    audio_trim_filepaths = glob.glob(data_path +'*_trim'+os.path.sep+'*.wav')
+     
     is_mic1_audio_trim = (audio_trim_filepaths[0].split(os.path.sep)[-2].find('1')!=-1)
     to_trim_mic_id = 2 if is_mic1_audio_trim else 1
-    to_trim_dir = '{}{}_data{}sub_{}{}trial_{}{}mic{}_audio_cmd_trim'.format(
-        dataset_path, set_name, os.path.sep, sub_id, os.path.sep, trial_id, os.path.sep, to_trim_mic_id)
+    to_trim_dir = data_path + 'mic{}_audio_cmd_trim'.format(to_trim_mic_id)
     
     if not os.path.exists(to_trim_dir):
         make_dir(to_trim_dir)
         for audio_trim_filepath in audio_trim_filepaths:
-            print('[INFO] reading already trimmed audio file: '+audio_trim_filepath)
+            audio_trim_filename = audio_trim_filepath.split(os.path.sep)[-1]
+            print('[INFO] reading already trimmed audio file: '+audio_trim_filename)
             sample_rate_trim, audio_trim = scipy.io.wavfile.read(audio_trim_filepath)
-            length_audio_trim = audio_trim.shape[0]
             duration_trim = audio_trim.shape[0] / sample_rate_trim
             print('[INFO] duration of the already trimmed file = {}'.format(duration_trim))
             #trim the corresponding other mic audio
-            trim_audio(audio_trim_filepath, length_audio_trim, to_trim_mic_id, to_trim_dir)
+            trim_audio(audio_trim_filename, audio_trim.shape[0], to_trim_mic_id, to_trim_dir)
 
 
 def trim_audio_by_set(dataset_path, set_name):
