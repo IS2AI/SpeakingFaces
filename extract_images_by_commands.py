@@ -55,6 +55,7 @@ def extract_frames_by_sub_trial(dataset_path, set_name, sub_id, trial_id):
 
 
 def extract_frames_by_set(dataset_path, set_name):
+    print('[INFO] extract frames from videos by commands for {} set'.format(set_name))
     csv_filepaths = glob.glob('{}csvs{}{}_set{}fpc5{}*1.csv'.format(
         dataset_path,os.path.sep,set_name,os.path.sep,os.path.sep))
     csv_filepaths = csv_filepaths+ glob.glob('{}csvs{}{}_set{}fpc5{}*2.csv'.format(
@@ -66,6 +67,11 @@ def extract_frames_by_set(dataset_path, set_name):
         sub_id = int(csv_filename_split[1][3:])
         extract_frames_by_sub_trial(dataset_path, set_name, sub_id, trial_id)
 
+def extract_frames_by_range(dataset_path, set_name, sub_id_str, sub_id_end):
+    print('[INFO] extract frames from videos by commands for the range of sub_id [{} ... {}]'.format(sub_id_str, sub_id_end))
+    for sub_id in range(sub_id_str, sub_id_end):
+        for trial_id in [1,2]:
+            extract_frames_by_sub_trial(dataset_path, set_name, sub_id, trial_id)
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
@@ -76,16 +82,20 @@ ap.add_argument("-s", "--split", required = True,
 ap.add_argument("-i", "--sub_info",  nargs='+', type=int,
         default = (0,0),
         help="subject info: ID, trial #")
+ap.add_argument("-r", "--sub_range",  nargs='+', type=int,
+        default = (0,0))
 args = vars(ap.parse_args())
 
 sub_id_in = args["sub_info"][0]
 trial_id_in = args["sub_info"][1]
 set_name = args["split"]
 dataset_path = args["dataset"]
-print(dataset_path)
-print(set_name)
-print(sub_id_in, trial_id_in)
-if (sub_id_in!=0 and trial_id_in!=0):
+sub_id_str = args["sub_range"][0]
+sub_id_end = args["sub_range"][1]
+
+if (sub_id_str!=0 and sub_id_end!=0):
+    extract_frames_by_range(dataset_path, set_name, sub_id_str, sub_id_end):
+elif (sub_id_in!=0 and trial_id_in!=0):
     extract_frames_by_sub_trial(dataset_path, set_name, sub_id_in, trial_id_in)
 else:
     extract_frames_by_set(dataset_path, set_name)
