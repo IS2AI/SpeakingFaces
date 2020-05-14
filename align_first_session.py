@@ -16,8 +16,8 @@ set_name = args["split"]
 dataset_path = '{}{}_data/'.format(args["dataset"], set_name)
 alignment_filepath = '/home/test/Documents/Github/SpeakingFaces/metadata/alignment_info_{}.csv'.format(set_name)
 alignment_data = pd.read_csv(alignment_filepath)
-sub_id_str = args["sub_range"][0] -1
-sub_id_end = args["sub_range"][1] -1
+sub_id_str = args["sub_range"][0] - 1
+sub_id_end = args["sub_range"][1] - 1
 print(sub_id_str*2, sub_id_end*2)
 
 for i in range(sub_id_str*2, sub_id_end*2): 

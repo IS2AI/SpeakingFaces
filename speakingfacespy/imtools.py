@@ -6,7 +6,6 @@ import cv2
 import dlib
 import os
 import numpy as np
-
 # obtain a path to a thermal image
 def path_to_thermal_image(rgbImagePath, dataset_path, thermal_image_folder):
 	# modify the visible image file name to obtain 
@@ -141,6 +140,66 @@ def lip_region_extractor(face_net, visible_image, thermal_image, threshold, dnn_
 	# otherwise return Nones
 	else:
 		return (None, None, None, None)
+
+def align_rgb_image(dy, dx, thr, rgb):
+	
+    print("[INFO] aligning the visible image with its thermal pair")
+
+    ptsA = np.array([[399 + dx, 345 + dy], [423 + dx, 293 + dy], [293 + dx, 316 + dy], [269 + dx, 368 + dy]])
+    ptsB = np.array([[249, 237], [267, 196], [169, 214], [151, 254]])
+    
+    # estimate a homography matrix to warp the visible image
+    (H, status) = cv2.findHomography(ptsA, ptsB, cv2.RANSAC, 2.0)
+    
+    # grab a size of the thermal image 
+    (H_thr, W_thr) = thr.shape[:2]
+    
+    # warp the rgb image to align with the thermal image
+    rgb = cv2.warpPerspective(rgb, H, (W_thr, H_thr), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
+   
+    return rgb
+
+def single_face_detector(image, threshold):
+	print("[INFO] loading the face and landmark predictors ...")
+	face_net = cv2.dnn.readNetFromCaffe(str(os.path.abspath("models/deploy.prototxt.txt")), 
+		str(os.path.abspath("models/res10_300x300_ssd_iter_140000.caffemodel")))                      
+	
+	# get the visible image size
+	(h, w) = image.shape[:2]
+
+	#  create an image blob to pass it through the network
+	blob = cv2.dnn.blobFromImage(cv2.resize(image, (300, 300)), 1.0,
+		(300, 300), (104.0, 177.0, 123.0), swapRB=False, crop=False)
+
+	# pass the blob through the network and obtain the detections and corresponding predictions 
+	face_net.setInput(blob)
+	detections = face_net.forward()
+	result = []
+	# loop over the detections
+	if len(detections) > 0:
+		# we're making the assumption that each image has only ONE
+		# face, so find the bounding box with the largest probability
+		i = np.argmax(detections[0, 0, :, 2])
+		confidence = detections[0, 0, i, 2]
+		
+		# filter out weak detections by ensuring the 'confidence' is greater than the minimum probability
+		if confidence > threshold:
+			# compute the (x, y)-coordinates of the bounding box for the face
+			box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
+			(startX, startY, endX, endY) = box.astype("int")
+			result = [(startY, endX, endY, startX)]
+	return result
+
+def get_face_location_landmarks(image, threshold, model):
+	
+	if model != "dnn":
+		face_locations = face_recognition.face_locations(image, model = model)
+	else:
+		face_locations = single_face_detector(image, threshold)
+
+	face_landmarks = face_recognition.face_landmarks(image, face_locations)
+	
+	return face_landmarks, face_locations
 
 
 def get_homography_matrix(M, dx, dy, N=40):
