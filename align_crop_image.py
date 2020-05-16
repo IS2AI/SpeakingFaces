@@ -81,21 +81,24 @@ for rgb_image_filepath in rgb_image_filepaths:
     
     if (args["face_detector"]!= "none"): 
         #get the boundaries of a boundin box for the lip region from the warped rgb image
-        face_landmarks, [face_location]  = get_face_location_landmarks(rgb, args["confidence"], model=args["face_detector"])
+        face_landmarks, face_locations = get_face_location_landmarks(rgb, args["confidence"], model=args["face_detector"])
         # compare the max of upper lip and third landmark, if the later one is lower, then take the second landmark as the top boundary
-        shape_chin, shape_mouth = face_landmarks[0]['chin'], face_landmarks[0]['top_lip']
-
-        # need to update the following part up to args['show']
-        if shape_chin is None:
-            print("[INFO] Can't extract the lip region, no shape is provided !!!")
-            continue
-           
+        if not (face_locations):
+            print("[INFO] CANT GET THE LOCATION OF THE FACE!!!! STOP AND CHANGE THE FACE DETECTOR")
+            break
+        if not (face_landmarks):
+            print("[INFO] CANT GET THE FACE LANDMARKS!!!! STOP AND CHANGE THE FACE DETECTOR")
+            break
+    
+        face_location = face_locations[0]
+        shape_chin, shape_mouth = face_landmarks[0]['chin'], face_landmarks[0]['top_lip']    
         upper_landmark_id = args["landmark"][int(pos_id) - 1]
         (startX, startY, endX, endY) = (shape_chin[2][0], shape_chin[upper_landmark_id][1], shape_chin[14][0],shape_chin[6][1])
+        
         # if the lip region was not detected properly then save and skip this frame
         if startX < 0 or startY < 0 or endX < 0 or endY < 0:
-            print("[INFO] Can't extract the lip region, negative coordinates for bouding box!!!")
-            continue
+            print("[INFO] CANT EXTRACT THE LIP REGION. NEGATIVE COORDINATES FOR THE BOUNDING BOX!!!")
+            break
 
         # otherwise crop out the lip regions 
         if int(pos_id) > 6:

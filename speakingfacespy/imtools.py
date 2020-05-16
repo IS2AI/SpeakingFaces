@@ -160,7 +160,7 @@ def align_rgb_image(dy, dx, thr, rgb):
     return rgb
 
 def single_face_detector(image, threshold):
-	print("[INFO] loading the face and landmark predictors ...")
+	print("[INFO] DNN model is chosen, loading the face and landmark predictors ...")
 	face_net = cv2.dnn.readNetFromCaffe(str(os.path.abspath("models/deploy.prototxt.txt")), 
 		str(os.path.abspath("models/res10_300x300_ssd_iter_140000.caffemodel")))                      
 	
@@ -191,15 +191,18 @@ def single_face_detector(image, threshold):
 	return result
 
 def get_face_location_landmarks(image, threshold, model):
-	
+	print("[INFO] retrieving the face location and landmarks")
+
 	if model != "dnn":
 		face_locations = face_recognition.face_locations(image, model = model)
 	else:
 		face_locations = single_face_detector(image, threshold)
 
-	face_landmarks = face_recognition.face_landmarks(image, face_locations)
-	
-	return face_landmarks, face_locations
+	if face_locations:
+		face_landmarks = face_recognition.face_landmarks(image, face_locations)
+		return face_landmarks, face_locations
+	else:
+		return [], []
 
 
 def get_homography_matrix(M, dx, dy, N=40):
