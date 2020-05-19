@@ -62,8 +62,6 @@ def extract_frames_by_range(dataset_path, sub_id_str, sub_id_end):
 ap = argparse.ArgumentParser()
 ap.add_argument("-d", "--dataset", required=True,
         help="path to dataset")
-ap.add_argument("-s", "--split", required = True,
-        help="name the split train/valid/test")
 ap.add_argument("-i", "--sub_info",  nargs='+', type=int,
         default = (0,0),
         help="subject info: ID, trial #")

@@ -66,6 +66,6 @@ sub_id_str = args["sub_range"][0]
 sub_id_end = args["sub_range"][1]
 
 if (sub_id_str!=0 and sub_id_end!=0):
-    trim_audio_by_range(dataset_path, sub_id_str, sub_id_end):
+    trim_audio_by_range(dataset_path, sub_id_str, sub_id_end)
 elif (sub_id_in!=0 and trial_id_in!=0):
     trim_audio_by_sub_trial(dataset_path, sub_id_in, trial_id_in)
