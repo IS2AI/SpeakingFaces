@@ -10,8 +10,6 @@ import pandas as pd
 import cv2 
 import argparse
 import os
-
-# parse the provided arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-p", "--dataset", required=True,
 	help="path to the dataset")
