@@ -7,46 +7,22 @@ from speakingfacespy.imtools import make_dir
 import scipy.io.wavfile
 import pandas as pd
 
-def extract_frame(audio_trim_filename, duration, data_path, stream_id):
-    
-    video_to_extract_filename  = '_'.join(audio_trim_filename.split('_')[:-1])+'_{}.avi'.format(stream_id)
-    opt = 'thr' if stream_id == 1 else 'rgb'  
-    video_to_extract_filepath = data_path + opt+ '_video_cmd' + os.path.sep + video_to_extract_filename
-    print('[INFO] accessing a video file:'+ video_to_extract_filepath)
-    extracted_images_dir = data_path + opt+ '_image_cmd'+ os.path.sep
-    
-    cap =  cv2.VideoCapture(video_to_extract_filepath)
-    max_num_frames = int(duration*28)
-    frame_id=1
-    while(cap.isOpened() and frame_id <= max_num_frames):
-        ret, frame = cap.read()
-        if ret == False:
-            break
-        extracted_image_filename = '_'.join(audio_trim_filename.split('_')[:-1])+'_{}_{}.png'.format(frame_id, stream_id)
-        extracted_image_filepath = extracted_images_dir+extracted_image_filename
-        if not os.path.exists(extracted_image_filepath):
-            if frame_id%10 == 0:
-                print('[INFO] saving an extracted frame: '+ extracted_image_filepath)
-            cv2.imwrite(extracted_image_filepath, frame)
-        frame_id+=1
-    
-    cap.release()
-    cv2.destroyAllWindows()
-    print('[INFO] finished extracting frames')
     
 def extract_audio_by_command(command, data_path, sub_id, trial_id, mic_id):
     fps = 28.0
     pos_id = command.pos_id
-    start_fr_id = command.start_fr_id-1
+    start_fr_id = command.start_fr_id
     end_fr_id = command.end_fr_id
     command_id  = command.command_id
     print("[INFO] accessing command: pos_id {}, command_id {}, start_fr_id {}, end_fr_id {}".format(pos_id, command_id, start_fr_id, end_fr_id))
 
     mic_raw_audio_filepath  = data_path+'video_audio/{}_{}_2_{}_{}.wav'.format(sub_id, trial_id, pos_id, mic_id) 
     sample_rate, data = scipy.io.wavfile.read(mic_raw_audio_filepath)
+    print(data.dtype)
+    #data = data/32767
     print("sample rate {}".format(sample_rate))
     print("audio_mic1_shape {}".format(data.shape))
-    x_start = int(1/fps*sample_rate*start_fr_id)
+    x_start = int(1/fps*sample_rate*start_fr_id)-1
     x_end = int(1/fps*sample_rate*end_fr_id)
     print("x_start {} x_end {}".format(x_start, x_end))
     new_filepath =  data_path+'mic{}_audio_cmd/{}_{}_2_{}_{}_{}.wav'.format(mic_id, sub_id, trial_id, pos_id, command_id,  mic_id)
@@ -54,6 +30,7 @@ def extract_audio_by_command(command, data_path, sub_id, trial_id, mic_id):
     if(x_end > data.shape[0]):
         x_end = data.shape[0]
         print("x_end > data.shape[0]")
+    print(data[x_start:x_end].dtype)
     scipy.io.wavfile.write(new_filepath, sample_rate, data[x_start:x_end]) 
 
 def extract_data_by_sub_trial(dataset_path, commands_path,  sub_id, trial_id):
@@ -74,9 +51,11 @@ def extract_data_by_sub_trial(dataset_path, commands_path,  sub_id, trial_id):
     print(commands.columns)
     for i in range(len(commands)):
         command = commands.iloc[i]
-        #extract_audio_by_command(command, data_path,sub_id, trial_id, 1)
+        extract_audio_by_command(command, data_path,sub_id, trial_id, 1)
+        extract_audio_by_command(command, data_path,sub_id, trial_id, 2)
        
         #thr_raw_video_filepath = data_path+'video_audio/{}_{}_2_{}_1.avi'.format(sub_id, trial_id, command.pos_id)
+        '''
         rgb_raw_video_filepath = data_path+'video_audio/{}_{}_2_{}_2.avi'.format(sub_id, trial_id, command.pos_id)
         cap =  cv2.VideoCapture(rgb_raw_video_filepath)
         # using cap.set start at the start_fr_id and then do it for a number frames needed
@@ -94,18 +73,7 @@ def extract_data_by_sub_trial(dataset_path, commands_path,  sub_id, trial_id):
             frame_id += 1
 
         cap.release()
-        
-    '''     
-    for audio_trim_filepath in audio_trim_filepaths:
-        
-        audio_trim_filename = audio_trim_filepath.split(os.path.sep)[-1]
-        print('[INFO] reading already trimmed audio file: '+audio_trim_filename)
-        duration_trim = audio_trim.shape[0] / sample_rate_trim
-        print('[INFO] duration of the already trimmed file = {}'.format(duration_trim))
-        
-        extract_frame(audio_trim_filename, duration_trim, data_path, 1)
-        extract_frame(audio_trim_filename, duration_trim, data_path, 2)   
-    '''
+        '''
 def extract_data_by_range(dataset_path, commands_path, sub_id_str, sub_id_end):
     print('[INFO] extract frames from videos by commands for the range of sub_id [{} ... {}]'.format(sub_id_str, sub_id_end))
     for sub_id in range(sub_id_str, sub_id_end):
