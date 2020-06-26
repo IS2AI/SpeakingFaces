@@ -44,7 +44,7 @@ def extract_frames_by_sub_trial(dataset_path, sub_id, trial_id, pos_id):
     make_dir(data_path+'rgb_image_cmd/')
     for audio_trim_filepath in audio_trim_filepaths:
         audio_trim_filename = audio_trim_filepath.split(os.path.sep)[-1]
-        _, _, _, pos, _, _ = audio_trim_filepath.split("_")[-7:-1]    
+        pos = int(audio_trim_filename.split("_")[3])    
         if  pos_id == 0 or pos == pos_id:
             print('[INFO] reading already trimmed audio file: '+audio_trim_filename)
             sample_rate_trim, audio_trim = scipy.io.wavfile.read(audio_trim_filepath)
@@ -79,7 +79,7 @@ trial_id_in = args["sub_info"][1]
 dataset_path = args["dataset"]
 sub_id_str = args["sub_range"][0]
 sub_id_end = args["sub_range"][1]
-
+pos_id = args["pos_id"]
 if (sub_id_str!=0 and sub_id_end!=0):
     extract_frames_by_range(dataset_path, sub_id_str, sub_id_end)
 elif (sub_id_in!=0 and trial_id_in!=0):
