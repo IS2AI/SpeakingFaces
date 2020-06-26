@@ -33,7 +33,7 @@ def extract_frame(audio_trim_filename, duration, data_path, stream_id):
     print('[INFO] finished extracting frames')
     
 
-def extract_frames_by_sub_trial(dataset_path, sub_id, trial_id):
+def extract_frames_by_sub_trial(dataset_path, sub_id, trial_id, pos_id):
     #assuming every trial has mic1_audio_cmd_trim folder
     print("[INFO] extract frames from videos by commands for sub_id = {}, trial_id = {}".format(sub_id, trial_id))
     data_path = '{}sub_{}{}trial_{}{}'.format(
@@ -44,13 +44,15 @@ def extract_frames_by_sub_trial(dataset_path, sub_id, trial_id):
     make_dir(data_path+'rgb_image_cmd/')
     for audio_trim_filepath in audio_trim_filepaths:
         audio_trim_filename = audio_trim_filepath.split(os.path.sep)[-1]
-        print('[INFO] reading already trimmed audio file: '+audio_trim_filename)
-        sample_rate_trim, audio_trim = scipy.io.wavfile.read(audio_trim_filepath)
-        duration_trim = audio_trim.shape[0] / sample_rate_trim
-        print('[INFO] duration of the already trimmed file = {}'.format(duration_trim))
-        
-        extract_frame(audio_trim_filename, duration_trim, data_path, 1)
-        extract_frame(audio_trim_filename, duration_trim, data_path, 2)   
+        _, _, _, pos, _, _ = audio_trim_filepath.split("_")[-7:-1]    
+        if  pos_id == 0 or pos == pos_id:
+            print('[INFO] reading already trimmed audio file: '+audio_trim_filename)
+            sample_rate_trim, audio_trim = scipy.io.wavfile.read(audio_trim_filepath)
+            duration_trim = audio_trim.shape[0] / sample_rate_trim
+            print('[INFO] duration of the already trimmed file = {}'.format(duration_trim))
+            
+            extract_frame(audio_trim_filename, duration_trim, data_path, 1)
+            extract_frame(audio_trim_filename, duration_trim, data_path, 2)   
 
 def extract_frames_by_range(dataset_path, sub_id_str, sub_id_end):
     print('[INFO] extract frames from videos by commands for the range of sub_id [{} ... {}]'.format(sub_id_str, sub_id_end))
@@ -67,6 +69,9 @@ ap.add_argument("-i", "--sub_info",  nargs='+', type=int,
         help="subject info: ID, trial #")
 ap.add_argument("-r", "--sub_range",  nargs='+', type=int,
         default = (0,0))
+ap.add_argument("-p", "--pos_id", type=int,
+        default = 0)
+
 args = vars(ap.parse_args())
 
 sub_id_in = args["sub_info"][0]
@@ -78,4 +83,4 @@ sub_id_end = args["sub_range"][1]
 if (sub_id_str!=0 and sub_id_end!=0):
     extract_frames_by_range(dataset_path, sub_id_str, sub_id_end)
 elif (sub_id_in!=0 and trial_id_in!=0):
-    extract_frames_by_sub_trial(dataset_path, sub_id_in, trial_id_in)
+    extract_frames_by_sub_trial(dataset_path, sub_id_in, trial_id_in, pos_id)
