@@ -14,27 +14,44 @@ def extract_audio_by_command(command, data_path, sub_id, trial_id, mic_id):
     start_fr_id = command.start_fr_id
     end_fr_id = command.end_fr_id
     command_id  = command.command_id
-    print("[INFO] accessing command: pos_id {}, command_id {}, start_fr_id {}, end_fr_id {}".format(pos_id, command_id, start_fr_id, end_fr_id))
-
+    print("[INFO] extracting the audio file for: pos_id {}, command_id {}, start_fr_id {}, end_fr_id {}".format(pos_id, command_id, start_fr_id, end_fr_id))
     mic_raw_audio_filepath  = data_path+'video_audio/{}_{}_2_{}_{}.wav'.format(sub_id, trial_id, pos_id, mic_id) 
     sample_rate, data = scipy.io.wavfile.read(mic_raw_audio_filepath)
-    print(data.dtype)
-    #data = data/32767
-    print("sample rate {}".format(sample_rate))
-    print("audio_mic1_shape {}".format(data.shape))
     x_start = int(1/fps*sample_rate*start_fr_id)-1
     x_end = int(1/fps*sample_rate*end_fr_id)
-    print("x_start {} x_end {}".format(x_start, x_end))
     new_filepath =  data_path+'mic{}_audio_cmd/{}_{}_2_{}_{}_{}.wav'.format(mic_id, sub_id, trial_id, pos_id, command_id,  mic_id)
-    print(new_filepath)
     if(x_end > data.shape[0]):
         x_end = data.shape[0]
         print("x_end > data.shape[0]")
-    print(data[x_start:x_end].dtype)
     scipy.io.wavfile.write(new_filepath, sample_rate, data[x_start:x_end]) 
 
+ 
+def extract_video_by_command(command, data_path, sub_id, trial_id, stream_id):
+    fps = 28.0
+    pos_id = command.pos_id
+    start_fr_id = command.start_fr_id
+    end_fr_id = command.end_fr_id
+    command_id  = command.command_id
+    print("[INFO] extracting the video file for: pos_id {}, command_id {}, start_fr_id {}, end_fr_id {}".format(pos_id, command_id, start_fr_id, end_fr_id))
+    raw_video_filepath = data_path+'video_audio/{}_{}_2_{}_{}.avi'.format(sub_id, trial_id, pos_id, stream_id)
+    cap =  cv2.VideoCapture(raw_video_filepath)
+    # using cap.set start at the start_fr_id and then do it for a number frames needed
+    print(cap.get(cv2.CAP_PROP_FPS))
+    frame_width = int(cap.get(3))
+    frame_height = int(cap.get(4))
+    rgb_video_out_filepath = data_path+'video_audio/{}_{}_2_{}_{}_2.avi'.format(sub_id, trial_id, command.pos_id, command.command_id)
+    rgb_video_out = cv2.VideoWriter(rgb_video_out_filepath, cv2.VideoWriter_fourcc('M','J','P','G'), 10, (frame_width,frame_height))
+    frame_id = 1
+    while(cap.isOpened() and frame_id <= (end_fr_id - start_fr_id)):
+        ret, frame = cap.read()
+        if ret == False:
+            break
+        rgb_video_out.write(frame)
+        frame_id += 1
+
+    cap.release()
+
 def extract_data_by_sub_trial(dataset_path, commands_path,  sub_id, trial_id):
-    #assuming every trial has mic1_audio_cmd_trim folder
     print("[INFO] extract video and audio from raw data by commands for sub_id = {}, trial_id = {}".format(sub_id, trial_id))
     data_path = '{}sub_{}{}trial_{}{}'.format(
         dataset_path, sub_id, os.path.sep, trial_id, os.path.sep)
@@ -51,29 +68,12 @@ def extract_data_by_sub_trial(dataset_path, commands_path,  sub_id, trial_id):
     print(commands.columns)
     for i in range(len(commands)):
         command = commands.iloc[i]
-        extract_audio_by_command(command, data_path,sub_id, trial_id, 1)
-        extract_audio_by_command(command, data_path,sub_id, trial_id, 2)
-       
-        #thr_raw_video_filepath = data_path+'video_audio/{}_{}_2_{}_1.avi'.format(sub_id, trial_id, command.pos_id)
-        '''
-        rgb_raw_video_filepath = data_path+'video_audio/{}_{}_2_{}_2.avi'.format(sub_id, trial_id, command.pos_id)
-        cap =  cv2.VideoCapture(rgb_raw_video_filepath)
-        # using cap.set start at the start_fr_id and then do it for a number frames needed
-        print(cap.get(cv2.CAP_PROP_FPS))
-        frame_width = int(cap.get(3))
-        frame_height = int(cap.get(4))
-        rgb_video_out_filepath = data_path+'video_audio/{}_{}_2_{}_{}_2.avi'.format(sub_id, trial_id, command.pos_id, command.command_id)
-        rgb_video_out = cv2.VideoWriter(rgb_video_out_filepath, cv2.VideoWriter_fourcc('M','J','P','G'), 10, (frame_width,frame_height))
-        frame_id = 1
-        while(cap.isOpened() and frame_id <= (end_fr_id - start_fr_id)):
-            ret, frame = cap.read()
-            if ret == False:
-                break
-            rgb_video_out.write(frame)
-            frame_id += 1
-
-        cap.release()
-        '''
+        #extract_audio_by_command(command, data_path, sub_id, trial_id, 1)
+        #extract_audio_by_command(command, data_path, sub_id, trial_id, 2)
+        #extract_video_by_command(command, data_path, sub_id, trial_id, 1)
+        extract_video_by_command(command, data_path, sub_id, trial_id, 2)
+              
+        
 def extract_data_by_range(dataset_path, commands_path, sub_id_str, sub_id_end):
     print('[INFO] extract frames from videos by commands for the range of sub_id [{} ... {}]'.format(sub_id_str, sub_id_end))
     for sub_id in range(sub_id_str, sub_id_end):
