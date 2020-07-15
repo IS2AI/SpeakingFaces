@@ -222,7 +222,7 @@ def get_homography_matrix(M, dx, dy, N=40):
 def make_dir(dirName):
 	# Create target directory & all intermediate directories if don't exists
 	if not os.path.exists(dirName):
-		os.makedirs(dirName)
+		os.makedirs(dirName, exist_ok = True)
 		print("[INFO] Directory " , dirName ,  " created")
 	else:
 		print("[INFO] Directory " , dirName ,  " already exists") 
