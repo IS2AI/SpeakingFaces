@@ -1566,7 +1566,7 @@ python align_crop_image.py -p D:\image_alignment\train\ -i 81 2 9 -y 17 15 29 23
 
 ",,
 82,1,"python align_crop_image.py -p D:\image_alignment\train\ -i 82 1 1 -y 70 -x -5 -s 0 -l 2
-python align_crop_image.py -p D:\image_alignment\train\ -i 82 1 2 -y 70 57 -x -5 -3 -s 0 -l 2 2
+python align_crop_image.py -p D:\image_alignment\train\ -i 82 1 2 -y 70 57 -x -5 -3 -s 0 -l 2 3
 python align_crop_image.py -p D:\image_alignment\train\ -i 82 1 3 -y 70 57 62 -x -5 -3 -6 -s 0 -l 2 2 1
 python align_crop_image.py -p D:\image_alignment\train\ -i 82 1 4 -y 70 57 62 50 -x -5 -3 -6 9 -s 0 -l 2 2 1 1 -f dnn
 python align_crop_image.py -p D:\image_alignment\train\ -i 82 1 5 -y 70 57 62 50 50 -x -5 -3 -6 9 5 -s 0 -l 2 2 1 1 1
@@ -1586,7 +1586,7 @@ python align_crop_image.py -p D:\image_alignment\train\ -i 82 2 8 -y 19 23 26 30
 python align_crop_image.py -p D:\image_alignment\train\ -i 82 2 9 -y 19 23 26 30 21 25 26 28 42 -x 2 2 -1 -2 0 2 2 1 -3 -s 0 -l 2 2 1 1 1 0 2 2 1
 ",,
 83,1,"python align_crop_image.py -p D:\image_alignment\train\ -i 83 1 1 -y 76 -x 2 -s 0 -l 2
-python align_crop_image.py -p D:\image_alignment\train\ -i 83 1 2 -y 76 60 -x 2 2 -s 0 -l 2 2
+python align_crop_image.py -p D:\image_alignment\train\ -i 83 1 2 -y 76 60 -x 2 2 -s 0 -l 2 3
 python align_crop_image.py -p D:\image_alignment\train\ -i 83 1 3 -y 76 60 77 -x 2 2 0 -s 0 -l 2 2 1
 python align_crop_image.py -p D:\image_alignment\train\ -i 83 1 4 -y 76 60 77 73 -x 2 2 0 3 -s 0 -l 2 2 1 1
 python align_crop_image.py -p D:\image_alignment\train\ -i 83 1 5 -y 76 60 77 73 67 -x 2 2 0 3 4 -s 0 -l 2 2 1 1 1
@@ -1601,19 +1601,19 @@ python align_crop_image.py -p D:\image_alignment\train\ -i 83 1 9 -y 76 60 77 73
 python align_crop_image.py -p D:\image_alignment\train\ -i 83 2 2 -y 52 57 -x 2 2 -s 0 -l 2 2 -f dnn
 python align_crop_image.py -p D:\image_alignment\train\ -i 83 2 3 -y 52 57 59 -x 2 2 -1 -s 0 -l 2 2 1
 python align_crop_image.py -p D:\image_alignment\train\ -i 83 2 4 -y 52 57 59 61 -x 2 2 -1 2 -s 0 -l 2 2 1 1
-python align_crop_image.py -p D:\image_alignment\train\ -i 83 2 5 -y 52 57 59 61 59 -x 2 2 -1 2 2 -s 0 -l 2 2 1 1 0
+python align_crop_image.py -p D:\image_alignment\train\ -i 83 2 5 -y 52 57 59 61 59 -x 2 2 -1 2 2 -s 0 -l 2 2 1 1 2
 python align_crop_image.py -p D:\image_alignment\train\ -i 83 2 6 -y 52 57 59 61 59 64 -x 2 2 -1 2 2 0 -s 0 -l 2 2 1 1 1 0
 python align_crop_image.py -p D:\image_alignment\train\ -i 83 2 7 -y 52 57 59 61 59 64 60 -x 2 2 -1 2 2 0 5 -s 0 -l 2 2 1 1 1 0 2
 python align_crop_image.py -p D:\image_alignment\train\ -i 83 2 8 -y 52 57 59 61 59 64 60 48 -x 2 2 -1 2 2 0 5 5 -s 0 -l 2 2 1 1 1 0 2 2 -f dnn
 python align_crop_image.py -p D:\image_alignment\train\ -i 83 2 9 -y 52 57 59 61 59 64 60 48 57 -x 2 2 -1 2 2 0 5 5 0 -s 0 -l 2 2 1 1 1 0 2 2 2 -f none -r 120 135 250 200
 
 ",,
-84,1,"python align_crop_image.py -p D:\image_alignment\train\ -i 84 1 1 -y 74 -x 2 -s 0 -l 1
+84,1,"python align_crop_image.py -p D:\image_alignment\train\ -i 84 1 1 -y 74 -x 2 -s 0 -l 2
 python align_crop_image.py -p D:\image_alignment\train\ -i 84 1 2 -y 74 65 -x 2 2 -s 0 -l 1 2
 python align_crop_image.py -p D:\image_alignment\train\ -i 84 1 3 -y 74 65 70 -x 2 2 1 -s 0 -l 1 2 2 -f none -r 150 165 320 240
 python align_crop_image.py -p D:\image_alignment\train\ -i 84 1 4 -y 74 65 70 71 -x 2 2 1 3 -s 0 -l 1 2 2 1 -f dnn
 python align_crop_image.py -p D:\image_alignment\train\ -i 84 1 5 -y 74 65 70 71 64 -x 2 2 1 3 2 -s 0 -l 1 2 2 1 1 -f dnn
-python align_crop_image.py -p D:\image_alignment\train\ -i 84 1 6 -y 74 65 70 71 64 82 -x 2 2 1 3 2 6 -s 0 -l 1 2 2 1 1 1 -f dnn
+python align_crop_image.py -p D:\image_alignment\train\ -i 84 1 6 -y 74 65 70 71 64 82 -x 2 2 1 3 2 6 -s 0 -l 1 2 2 1 1 2 -f dnn
 python align_crop_image.py -p D:\image_alignment\train\ -i 84 1 7 -y 74 65 70 71 64 82 70 -x 2 2 1 3 2 6 0 -s 0 -l 1 2 2 1 1 1 2 -f dnn
 python align_crop_image.py -p D:\image_alignment\train\ -i 84 1 8 -y 74 65 70 71 64 82 70 65 -x 2 2 1 3 2 6 0 1 -s 0 -l 1 2 2 1 1 1 2 2 -f dnn
 python align_crop_image.py -p D:\image_alignment\train\ -i 84 1 9 -y 74 65 70 71 64 82 70 65 68 -x 2 2 1 3 2 6 0 1 1 -s 0 -l 1 2 2 1 1 1 2 2 2 -f dnn
@@ -1632,7 +1632,7 @@ python align_crop_image.py -p D:\image_alignment\train\ -i 84 2 9 -y 24 31 35 32
 python align_crop_image.py -p D:\image_alignment\train\ -i 85 1 2 -y 102 90 -x -2 -2 -s 0 -l 2 2 -f none -r 135 220 285 305
 python align_crop_image.py -p D:\image_alignment\train\ -i 85 1 3 -y 102 90 97 -x -2 -2 -6 -s 0 -l 2 2 1
 python align_crop_image.py -p D:\image_alignment\train\ -i 85 1 4 -y 102 90 97 77 -x -2 -2 -6 0 -s 0 -l 2 2 1 1
-python align_crop_image.py -p D:\image_alignment\train\ -i 85 1 5 -y 102 90 97 77 86 -x -2 -2 -6 0 0 -s 0 -l 2 2 1 1 2 -f none -r 200 200 380 310
+python align_crop_image.py -p D:\image_alignment\train\ -i 85 1 5 -y 102 90 97 77 86 -x -2 -2 -6 0 0 -s 0 -l 2 2 1 1 2 -f none -r 200 210 380 305
 python align_crop_image.py -p D:\image_alignment\train\ -i 85 1 6 -y 102 90 97 77 86 105 -x -2 -2 -6 0 0 2 -s 0 -l 2 2 1 1 2 2 -f none -r 200 175 380 255
 python align_crop_image.py -p D:\image_alignment\train\ -i 85 1 7 -y 102 90 97 77 86 105 90 -x -2 -2 -6 0 0 2 -1 -s 0 -l 2 2 1 1 2 2 2 -f none -r 60 190 210 275
 python align_crop_image.py -p D:\image_alignment\train\ -i 85 1 8 -y 102 90 97 77 86 105 90 95 -x -2 -2 -6 0 0 2 -1 0 -s 0 -l 2 2 1 1 2 2 2 2 -f none -r 80 220 240 300
