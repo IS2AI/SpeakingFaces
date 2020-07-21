@@ -62,7 +62,7 @@ for f in cor_filepaths:
             for img_filepath in img_filepaths:
                 img_filename = img_filepath.split(os.path.sep)[-1]
                 curr_frame_id = img_filename.split("_")[-2]
-                print(frame_id, curr_frame_id) 
+                #print(frame_id, curr_frame_id) 
                 if int(curr_frame_id) > int(frame_id):
                     shutil.copy(img_filepath, img_dst_dir+os.path.sep)
                     
