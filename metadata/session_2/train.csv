@@ -1729,9 +1729,7 @@ python align_crop_image.py -p D:\image_alignment\train\ -i 89 2 5 -y 22 21 30 32
 python align_crop_image.py -p D:\image_alignment\train\ -i 89 2 6 -y 22 21 30 32 24 32 -x 2 2 -2 -2 -2 -12 -s 0 -l 3 3 2 2 2 2
 python align_crop_image.py -p D:\image_alignment\train\ -i 89 2 7 -y 22 21 30 32 24 32 28 -x 2 2 -2 -2 -2 -12 4 -s 0 -l 3 3 2 2 2 2 3 -f dnn
 python align_crop_image.py -p D:\image_alignment\train\ -i 89 2 8 -y 22 21 30 32 24 32 28 20 -x 2 2 -2 -2 -2 -12 4 6 -s 0 -l 3 3 2 2 2 2 3 3 -f dnn
-python align_crop_image.py -p D:\image_alignment\train\ -i 89 2 9 -y 22 21 30 32 24 32 28 20 23 -x 2 2 -2 -2 -2 -12 4 6 2 -s 0 -l 3 3 2 2 2 2 3 3 2
-
-",89_2_2_5_736_2_2.png - shifted,
+python align_crop_image.py -p D:\image_alignment\train\ -i 89 2 9 -y 22 21 30 32 24 32 28 20 23 -x 2 2 -2 -2 -2 -12 4 6 2 -s 0 -l 3 3 2 2 2 2 3 3 2",89_2_2_5_736_2_2.png - shifted,
 90,1,"python align_crop_image.py -p D:\image_alignment\train\ -i 90 1 1 -y 79 -x -5 -s 1 -l 2 
 python align_crop_image.py -p D:\image_alignment\train\ -i 90 1 2 -y 79 67 -x -5 -7 -s 1 -l 2 2 -f dnn
 python align_crop_image.py -p D:\image_alignment\train\ -i 90 1 3 -y 79 67 58 -x -5 -7 -2 -s 1 -l 2 2 1
@@ -1757,19 +1755,17 @@ python align_crop_image.py -p D:\image_alignment\train\ -i 91 1 2 -y 18 19 -x 1 
 python align_crop_image.py -p D:\image_alignment\train\ -i 91 1 3 -y 18 19 26 -x 1 2 -2 -s 0 -l 2 3 1
 python align_crop_image.py -p D:\image_alignment\train\ -i 91 1 4 -y 18 19 26 23 -x 1 2 -2 2 -s 0 -l 2 3 1 1
 python align_crop_image.py -p D:\image_alignment\train\ -i 91 1 5 -y 18 19 26 23 19 -x 1 2 -2 2 2 -s 0 -l 2 3 1 1 2
-python align_crop_image.py -p D:\image_alignment\train\ -i 91 1 6 -y 18 19 26 23 19 18 -x 1 2 -2 2 2 2 -s 0 -l 2 3 1 1 2 0
+python align_crop_image.py -p D:\image_alignment\train\ -i 91 1 6 -y 18 19 26 23 19 18 -x 1 2 -2 2 2 2 -s 0 -l 2 3 1 1 2 1
 python align_crop_image.py -p D:\image_alignment\train\ -i 91 1 7 -y 18 19 26 23 19 18 17 -x 1 2 -2 2 2 2 1 -s 0 -l 2 3 1 1 2 1 2
 python align_crop_image.py -p D:\image_alignment\train\ -i 91 1 8 -y 18 19 26 23 19 18 17 15 -x 1 2 -2 2 2 2 1 1 -s 0 -l 2 3 1 1 2 1 2 3 -f none -r 125 155 240 235 
-python align_crop_image.py -p D:\image_alignment\train\ -i 91 1 9 -y 18 19 26 23 19 18 17 15 18 -x 1 2 -2 2 2 2 1 1 2 -s 0 -l 2 3 1 1 2 1 2 3 1
-
-","91_1_2_8_836_2_2.png
+python align_crop_image.py -p D:\image_alignment\train\ -i 91 1 9 -y 18 19 26 23 19 18 17 15 18 -x 1 2 -2 2 2 2 1 1 2 -s 0 -l 2 3 1 1 2 1 2 3 2","91_1_2_8_836_2_2.png
 91_1_2_5_692_2_2.png - shifted",
 91,2,"python align_crop_image.py -p D:\image_alignment\train\ -i 91 2 1 -y 74 -x -3 -s 1 -l 2
-python align_crop_image.py -p D:\image_alignment\train\ -i 91 2 2 -y 74 68 -x -3 -2 -s 1 -l 2 2
+python align_crop_image.py -p D:\image_alignment\train\ -i 91 2 2 -y 74 68 -x -3 -2 -s 1 -l 2 3
 python align_crop_image.py -p D:\image_alignment\train\ -i 91 2 3 -y 74 68 92 -x -3 -2 -10 -s 1 -l 2 2 1
-python align_crop_image.py -p D:\image_alignment\train\ -i 91 2 4 -y 74 68 92 80 -x -3 -2 -10 0 -s 1 -l 2 2 1 0 -f none -r 165 172 350 290
-python align_crop_image.py -p D:\image_alignment\train\ -i 91 2 5 -y 74 68 92 80 63 -x -3 -2 -10 0 1 -s 1 -l 2 2 1 0 1 -f none -r 165 170 320 280
-python align_crop_image.py -p D:\image_alignment\train\ -i 91 2 6 -y 74 68 92 80 63 72 -x -3 -2 -10 0 1 0 -s 1 -l 2 2 1 0 1 0 -f none -r 150 145 330 260
+python align_crop_image.py -p D:\image_alignment\train\ -i 91 2 4 -y 74 68 92 80 -x -3 -2 -10 0 -s 1 -l 2 2 1 0 -f none -r 165 180 350 280
+python align_crop_image.py -p D:\image_alignment\train\ -i 91 2 5 -y 74 68 92 80 63 -x -3 -2 -10 0 1 -s 1 -l 2 2 1 0 1 -f none -r 165 180 330 275
+python align_crop_image.py -p D:\image_alignment\train\ -i 91 2 6 -y 74 68 92 80 63 72 -x -3 -2 -10 0 1 0 -s 1 -l 2 2 1 0 1 0 -f none -r 150 145 330 255
 python align_crop_image.py -p D:\image_alignment\train\ -i 91 2 7 -y 74 68 92 80 63 72 75 -x -3 -2 -10 0 1 0 -6 -s 1 -l 2 2 1 0 1 0 2
 python align_crop_image.py -p D:\image_alignment\train\ -i 91 2 8 -y 74 68 92 80 63 72 75 73 -x -3 -2 -10 0 1 0 -6 -4 -s 1 -l 2 2 1 0 1 0 2 2
 python align_crop_image.py -p D:\image_alignment\train\ -i 91 2 9 -y 74 68 92 80 63 72 75 73 71 -x -3 -2 -10 0 1 0 -6 -4 -5 -s 1 -l 2 2 1 0 1 0 2 2 1 -f dnn
@@ -1793,8 +1789,7 @@ python align_crop_image.py -p D:\image_alignment\train\ -i 92 2 5 -y 95 89 96 93
 python align_crop_image.py -p D:\image_alignment\train\ -i 92 2 6 -y 95 89 96 93 84 104 -x -4 -3 -8 -6 -4 -6 -s 0 -l 2 2 0 1 1 1 -f none -r 150 180 340 295
 python align_crop_image.py -p D:\image_alignment\train\ -i 92 2 7 -y 95 89 96 93 84 104 93 -x -4 -3 -8 -6 -4 -6 -4 -s 0 -l 2 2 0 1 1 1 1 -f none -r 115 195 290 305
 python align_crop_image.py -p D:\image_alignment\train\ -i 92 2 8 -y 95 89 96 93 84 104 93 77 -x -4 -3 -8 -6 -4 -6 -4 -2 -s 0 -l 2 2 0 1 1 1 1 2 -f none -r 80 200 280 310   
-python align_crop_image.py -p D:\image_alignment\train\ -i 92 2 9 -y 95 89 96 93 84 104 93 77 83 -x -4 -3 -8 -6 -4 -6 -4 -2 -5 -s 0 -l 2 2 0 1 1 1 1 2 1 -f dnn
-","chin is cut, 92_2_2_8_116_2_2.png",
+python align_crop_image.py -p D:\image_alignment\train\ -i 92 2 9 -y 95 89 96 93 84 104 93 77 83 -x -4 -3 -8 -6 -4 -6 -4 -2 -5 -s 0 -l 2 2 0 1 1 1 1 2 1 -f none -r 130 135 290 230","chin is cut, 92_2_2_8_116_2_2.png",
 93,1,"python align_crop_image.py -p D:\image_alignment\train\ -i 93 1 1 -y 90 -x -4 -s 0 -l 1 -f dnn
 python align_crop_image.py -p D:\image_alignment\train\ -i 93 1 2 -y 90 73 -x -4 -2 -s 0 -l 1 2
 python align_crop_image.py -p D:\image_alignment\train\ -i 93 1 3 -y 90 73 79 -x -4 -2 -5 -s 0 -l 1 2 0
@@ -1946,24 +1941,22 @@ python align_crop_image.py -p D:\image_alignment\train\ -i 99 2 7 -y 88 85 105 9
 python align_crop_image.py -p D:\image_alignment\train\ -i 99 2 8 -y 88 85 105 90 85 101 90 80 -x 5 2 -2 4 3 -2 2 2 -s 1 -l 1 2 0 1 1 1 2 2
 python align_crop_image.py -p D:\image_alignment\train\ -i 99 2 9 -y 88 85 105 90 85 101 90 80 93 -x 5 2 -2 4 3 -2 2 2 3 -s 1 -l 1 2 0 1 1 1 2 2 2 -f none -r 90 155 270 250
 ",,
-100,1,"python align_crop_image.py -p D:\image_alignment\train\ -i 100 1 1 -y 68 -x 5 -s 0 -l 2
-python align_crop_image.py -p D:\image_alignment\train\ -i 100 1 2 -y 68 57 -x 5 4 -s 0 -l 2 2 
+100,1,"python align_crop_image.py -p D:\image_alignment\train\ -i 100 1 1 -y 68 -x 5 -s 0 -l 3
+python align_crop_image.py -p D:\image_alignment\train\ -i 100 1 2 -y 68 57 -x 5 4 -s 0 -l 2 3 
 python align_crop_image.py -p D:\image_alignment\train\ -i 100 1 3 -y 68 57 65 -x 5 4 3 -s 0 -l 2 2 1
 python align_crop_image.py -p D:\image_alignment\train\ -i 100 1 4 -y 68 57 65 66 -x 5 4 3 5 -s 0 -l 2 2 1 1
 python align_crop_image.py -p D:\image_alignment\train\ -i 100 1 5 -y 68 57 65 66 53 -x 5 4 3 5 5 -s 0 -l 2 2 1 1 1
-python align_crop_image.py -p D:\image_alignment\train\ -i 100 1 6 -y 68 57 65 66 53 60 -x 5 4 3 5 5 2 -s 0 -l 2 2 1 1 1 1 -f none -r 185 140 345 240
-python align_crop_image.py -p D:\image_alignment\train\ -i 100 2 6 -y 85 78 105 80 87 85 -x 5 2 -3 5 11 6 -s 0 -l 2 2 1 1 1 1 -f dnn
-python align_crop_image.py -p D:\image_alignment\train\ -i 100 1 7 -y 68 57 65 66 53 60 62 -x 5 4 3 5 5 2 4 -s 0 -l 2 2 1 1 1 1 1 -f dnn
-python align_crop_image.py -p D:\image_alignment\train\ -i 100 1 8 -y 68 57 65 66 53 60 62 52 -x 5 4 3 5 5 2 4 3 -s 0 -l 2 2 1 1 1 1 1 2
-python align_crop_image.py -p D:\image_alignment\train\ -i 100 1 9 -y 68 57 65 66 53 60 62 52 68 -x 5 4 3 5 5 2 4 3 4 -s 0 -l 2 2 1 1 1 1 1 2 1
-",,
-100,2,"python align_crop_image.py -p D:\image_alignment\train\ -i 100 2 1 -y 85 -x 5 -s 0 -l 2
-python align_crop_image.py -p D:\image_alignment\train\ -i 100 2 2 -y 85 78 -x 5 2 -s 0 -l 2 2
+python align_crop_image.py -p D:\image_alignment\train\ -i 100 1 6 -y 68 57 65 66 53 60 -x 5 4 3 5 5 2 -s 0 -l 2 2 1 1 1 1 -f none -r 185 145 345 230
+python align_crop_image.py -p D:\image_alignment\train\ -i 100 1 7 -y 68 57 65 66 53 60 62 -x 5 4 3 5 5 2 4 -s 0 -l 2 2 1 1 1 1 2 -f dnn
+python align_crop_image.py -p D:\image_alignment\train\ -i 100 1 8 -y 68 57 65 66 53 60 62 52 -x 5 4 3 5 5 2 4 3 -s 0 -l 2 2 1 1 1 1 1 3
+python align_crop_image.py -p D:\image_alignment\train\ -i 100 1 9 -y 68 57 65 66 53 60 62 52 68 -x 5 4 3 5 5 2 4 3 4 -s 0 -l 2 2 1 1 1 1 1 2 1",,
+100,2,"python align_crop_image.py -p D:\image_alignment\train\ -i 100 2 1 -y 85 -x 5 -s 0 -l 3
+python align_crop_image.py -p D:\image_alignment\train\ -i 100 2 2 -y 85 78 -x 5 2 -s 0 -l 2 3
 python align_crop_image.py -p D:\image_alignment\train\ -i 100 2 3 -y 85 78 105 -x 5 2 -3 -s 0 -l 2 2 1
 python align_crop_image.py -p D:\image_alignment\train\ -i 100 2 4 -y 85 78 105 80 -x 5 2 -3 5 -s 0 -l 2 2 1 1
 python align_crop_image.py -p D:\image_alignment\train\ -i 100 2 5 -y 85 78 105 80 87 -x 5 2 -3 5 11 -s 0 -l 2 2 1 1 1
-python align_crop_image.py -p D:\image_alignment\train\ -i 100 2 6 -y 85 78 105 80 87 85 -x 5 2 -3 5 11 6 -s 0 -l 2 2 1 1 1 1 
-python align_crop_image.py -p D:\image_alignment\train\ -i 100 2 7 -y 85 78 105 80 87 85 102 -x 5 2 -3 5 11 6 2 -s 0 -l 2 2 1 1 1 1 1
-python align_crop_image.py -p D:\image_alignment\train\ -i 100 2 8 -y 85 78 105 80 87 85 102 86 -x 5 2 -3 5 11 6 2 6 -s 0 -l 2 2 1 1 1 1 1 2
+python align_crop_image.py -p D:\image_alignment\train\ -i 100 2 6 -y 85 78 105 80 87 85 -x 5 2 -3 5 11 6 -s 0 -l 2 2 1 1 1 1 -f dnn
+python align_crop_image.py -p D:\image_alignment\train\ -i 100 2 7 -y 85 78 105 80 87 85 102 -x 5 2 -3 5 11 6 2 -s 0 -l 2 2 1 1 1 1 2
+python align_crop_image.py -p D:\image_alignment\train\ -i 100 2 8 -y 85 78 105 80 87 85 102 86 -x 5 2 -3 5 11 6 2 6 -s 0 -l 2 2 1 1 1 1 1 3
 python align_crop_image.py -p D:\image_alignment\train\ -i 100 2 9 -y 85 78 105 80 87 85 102 86 101 -x 5 2 -3 5 11 6 2 6 3 -s 0 -l 2 2 1 1 1 1 1 2 1
 ",,
