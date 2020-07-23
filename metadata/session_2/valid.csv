@@ -1,4 +1,4 @@
-sub_id,trial_id,command (by position every new line),comments,
+sub_id,trial_id,commands,comments,
 101,1,"python align_crop_image.py -p D:\image_alignment\validation\ -i 101 1 1 -y 48 -x 2 -s 1 -l 1
 python align_crop_image.py -p D:\image_alignment\validation\ -i 101 1 2 -y 48 58 -x 2 2 -s 1 -l 1 2
 python align_crop_image.py -p D:\image_alignment\validation\ -i 101 1 3 -y 48 58 71 -x 2 2 -4 -s 1 -l 1 2 0
