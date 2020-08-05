@@ -51,8 +51,8 @@ frame_ids = 900
 # initialize a total number of subjects 
 # for training and testing
 num_train_subjects = 100
-num_val_subjects = 22
-num_test_subjects = 20
+num_val_subjects = 20
+num_test_subjects = 22
 
 # initialize counters
 train_images = 0
@@ -73,14 +73,21 @@ for sub_id in range(1, sub_ids + 1):
 
 	# loop over the trials 1..2
 	for trial_id in range(1, trial_ids + 1):
-		# skip subjects with glasses
-		glasses = sub_info[sub_id - 1, trial_id + 4]
-		if glasses == "Glasses":
+		# skip subjects with accecories
+		acc = sub_info[sub_id - 1, trial_id + 4]
+		if acc != "None":
 			continue
 
 		# construct path to the folders with rgb and thermal images
-		rgb_path = os.path.join(args["dataset"], "sub_{}/trial_{}/rgb_image_aligned".format(sub_id, trial_id))
-		thr_path = os.path.join(args["dataset"], "sub_{}/trial_{}/thr_image".format(sub_id, trial_id))
+		if sub_id <= num_train_subjects:
+			rgb_path = os.path.join(args["dataset"], "train/sub_{}/trial_{}/rgb_image_aligned".format(sub_id, trial_id))
+			thr_path = os.path.join(args["dataset"], "train/sub_{}/trial_{}/thr_image".format(sub_id, trial_id))
+		elif sub_id > num_train_subjects and sub_id <= num_train_subjects + num_val_subjects:
+			rgb_path = os.path.join(args["dataset"], "valid/sub_{}/trial_{}/rgb_image_aligned".format(sub_id, trial_id))
+			thr_path = os.path.join(args["dataset"], "valid/sub_{}/trial_{}/thr_image".format(sub_id, trial_id))
+		else:
+			rgb_path = os.path.join(args["dataset"], "test/sub_{}/trial_{}/rgb_image_aligned".format(sub_id, trial_id))
+			thr_path = os.path.join(args["dataset"], "test/sub_{}/trial_{}/thr_image".format(sub_id, trial_id))
 
 		# loop over the positions 1...9
 		for pos_id in range(1, pos_ids + 1):
