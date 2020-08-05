@@ -80,14 +80,14 @@ for sub_id in range(1, sub_ids + 1):
 
 		# construct path to the folders with rgb and thermal images
 		if sub_id <= num_train_subjects:
-			rgb_path = os.path.join(args["dataset"], "train/sub_{}/trial_{}/rgb_image_aligned".format(sub_id, trial_id))
-			thr_path = os.path.join(args["dataset"], "train/sub_{}/trial_{}/thr_image".format(sub_id, trial_id))
+			rgb_path = os.path.join(args["dataset"], "train_data/sub_{}/trial_{}/rgb_image_aligned".format(sub_id, trial_id))
+			thr_path = os.path.join(args["dataset"], "train_data/sub_{}/trial_{}/thr_image".format(sub_id, trial_id))
 		elif sub_id > num_train_subjects and sub_id <= num_train_subjects + num_val_subjects:
-			rgb_path = os.path.join(args["dataset"], "valid/sub_{}/trial_{}/rgb_image_aligned".format(sub_id, trial_id))
-			thr_path = os.path.join(args["dataset"], "valid/sub_{}/trial_{}/thr_image".format(sub_id, trial_id))
+			rgb_path = os.path.join(args["dataset"], "valid_data/sub_{}/trial_{}/rgb_image_aligned".format(sub_id, trial_id))
+			thr_path = os.path.join(args["dataset"], "valid_data/sub_{}/trial_{}/thr_image".format(sub_id, trial_id))
 		else:
-			rgb_path = os.path.join(args["dataset"], "test/sub_{}/trial_{}/rgb_image_aligned".format(sub_id, trial_id))
-			thr_path = os.path.join(args["dataset"], "test/sub_{}/trial_{}/thr_image".format(sub_id, trial_id))
+			rgb_path = os.path.join(args["dataset"], "test_data/sub_{}/trial_{}/rgb_image_aligned".format(sub_id, trial_id))
+			thr_path = os.path.join(args["dataset"], "test_data/sub_{}/trial_{}/thr_image".format(sub_id, trial_id))
 
 		# loop over the positions 1...9
 		for pos_id in range(1, pos_ids + 1):
