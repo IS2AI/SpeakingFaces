@@ -65,7 +65,7 @@ def non_max_suppression_fast(boxes, overlapThresh):
 	return boxes[pick].astype("int")
 
 
-def face_region_extractor(face_net, visible_image, thermal_image, threshold):
+def face_region_extractor(face_net, visible_image, threshold):
 	# convert bgr to grayscale image
 	gray = cv2.cvtColor(visible_image, cv2.COLOR_BGR2GRAY)
 
@@ -95,20 +95,15 @@ def face_region_extractor(face_net, visible_image, thermal_image, threshold):
 			# compute the (x, y)-coordinates of the bounding box
 			# for the object and add it to the list 
 			box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
-			boxes.append(box)
+
+			# extract corners of the bounding box
+			(startX, startY, endX, endY) = box.astype("int")
+
+			# add the box to the list according to
+			# dlib's rect format
+			boxes.append((startY, endX, endY, startX))
 	
-	# if at least one face was detected
-	# then apply non maximum suppression
-	if boxes:
-		# apply non-maximum suppresion
-		[[startX, startY, endX, endY]] = non_max_suppression_fast(np.asarray(boxes, dtype=np.float32), overlapThresh=0.3)
-
-		# return bbox coordinates
-		return (startX, startY, endX, endY)
-
-	# otherwise return Nones
-	else:
-		return (None, None, None, None)
+	return boxes
 
 
 def lip_region_extractor(face_net, visible_image, thermal_image, threshold, dnn_mode=False):
