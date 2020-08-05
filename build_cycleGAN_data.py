@@ -29,32 +29,32 @@ if args["model"] == "dnn":
 	face_net = cv2.dnn.readNetFromCaffe("models/deploy.prototxt.txt", 
 		"models/res10_300x300_ssd_iter_140000.caffemodel")
 
+# initialize a path to dataset
+path_to_dataset = args["dataset"]
+
 # create directories to save train data
-train_pathA = os.path.join(args["dataset"], "cycleGAN/trainA")
-train_pathB = os.path.join(args["dataset"], "cycleGAN/trainB")
+train_pathA = os.path.join(path_to_dataset, "cycleGAN/trainA")
+train_pathB = os.path.join(path_to_dataset, "cycleGAN/trainB")
 make_dir(train_pathA)
 make_dir(train_pathB)
-
+	
 # and testing data
-test_pathA = os.path.join(args["dataset"], "cycleGAN/testA")
-test_pathB = os.path.join(args["dataset"], "cycleGAN/testB")
+test_pathA = os.path.join(path_to_dataset, "cycleGAN/testA")
+test_pathB = os.path.join(path_to_dataset, "cycleGAN/testB")
 make_dir(test_pathA)
 make_dir(test_pathB)
 
-# initialize the total number of subjects,
-# trials, and positions
+# initialize the total number trials, positions per 
+# trial, and frames per position
 sub_ids = 142
 trial_ids = 2
 pos_ids = 9
 frame_ids = 900
 
-# initialize a total number of subjects 
-# for training and testing
-num_train_subjects = 100
-
-# initialize counters
-train_images = 0
-test_images = 0
+# initialize a counter to count 
+# a total number of processed images
+train_samples = 0
+test_samples = 0
 
 # read information about subjects
 # from CSV file to NumPy array
@@ -70,14 +70,21 @@ for sub_id in range(1, sub_ids + 1):
 
 	# loop over the trials 1..2
 	for trial_id in range(1, trial_ids + 1):
-		# skip subjects with glasses
-		glasses = sub_info[sub_id - 1, trial_id + 4]
-		if glasses == "Glasses":
+		# skip subjects with accecories
+		acc = sub_info[sub_id - 1, trial_id + 4]
+		if acc != "None":
 			continue
 
 		# construct path to the folders with rgb and thermal images
-		rgb_path = os.path.join(args["dataset"], "sub_{}/trial_{}/rgb_image_aligned".format(sub_id, trial_id))
-		thr_path = os.path.join(args["dataset"], "sub_{}/trial_{}/thr_image".format(sub_id, trial_id))
+		if sub_id <= 100:
+			rgb_path = os.path.join(args["dataset"], "train/sub_{}/trial_{}/rgb_image_aligned".format(sub_id, trial_id))
+			thr_path = os.path.join(args["dataset"], "train/sub_{}/trial_{}/thr_image".format(sub_id, trial_id))
+		elif sub_id > 100 and sub_id <= 120:
+			rgb_path = os.path.join(args["dataset"], "valid/sub_{}/trial_{}/rgb_image_aligned".format(sub_id, trial_id))
+			thr_path = os.path.join(args["dataset"], "valid/sub_{}/trial_{}/thr_image".format(sub_id, trial_id))
+		else:
+			rgb_path = os.path.join(args["dataset"], "test/sub_{}/trial_{}/rgb_image_aligned".format(sub_id, trial_id))
+			thr_path = os.path.join(args["dataset"], "test/sub_{}/trial_{}/thr_image".format(sub_id, trial_id))
 
 		# loop over the positions 1...9
 		for pos_id in range(1, pos_ids + 1):
@@ -139,14 +146,15 @@ for sub_id in range(1, sub_ids + 1):
 						if key == ord("q"):
 							break
 
-					if sub_id <= num_train_subjects:
-						train_images += 1
+					# save images
+					if sub_id <= 100:
+						train_samples += 1
 						cv2.imwrite(os.path.join(train_pathA, "{}_{}_{}_{}.png".format(sub_id, trial_id, pos_id, frame_id)), thr_face)
 						cv2.imwrite(os.path.join(train_pathB, "{}_{}_{}_{}.png".format(sub_id, trial_id, pos_id, frame_id)), rgb_face)
 					else:
-						test_images += 1
+						test_samples += 1
 						cv2.imwrite(os.path.join(test_pathA, "{}_{}_{}_{}.png".format(sub_id, trial_id, pos_id, frame_id)), thr_face)
 						cv2.imwrite(os.path.join(test_pathB, "{}_{}_{}_{}.png".format(sub_id, trial_id, pos_id, frame_id)), rgb_face)
 
-print("[INFO] Processing is done: total number of train images:{}, and test images:{}".format(train_images, test_images))
+print("[INFO] Processing is done! Total number of train samples: {}, and test samples: {}".format(train_samples, test_samples))
 	
