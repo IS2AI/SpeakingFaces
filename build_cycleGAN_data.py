@@ -51,6 +51,10 @@ trial_ids = 2
 pos_ids = 9
 frame_ids = 900
 
+# initialize a number of subjects used 
+# for training
+num_train_subjects = 100
+
 # initialize counters to count number 
 # of training and testing samples
 train_samples = 0
@@ -146,7 +150,7 @@ for sub_id in range(1, sub_ids + 1):
 							break
 
 					# save images
-					if sub_id <= 100:
+					if sub_id <= num_train_subjects:
 						train_samples += 1
 						cv2.imwrite(os.path.join(train_pathA, "{}_{}_{}_{}.png".format(sub_id, trial_id, pos_id, frame_id)), thr_face)
 						cv2.imwrite(os.path.join(train_pathB, "{}_{}_{}_{}.png".format(sub_id, trial_id, pos_id, frame_id)), rgb_face)
