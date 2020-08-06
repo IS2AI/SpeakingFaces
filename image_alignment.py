@@ -1,20 +1,15 @@
 # import the necessary packages
-from imutils import paths
-from speakingfacespy.imtools import path_to_thermal_image
 from speakingfacespy.imtools import make_dir
-import imutils
 import numpy as np
 import pandas as pd
 import cv2 
 import argparse
 import os
 
-# parse the provided arguments
+# create the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-d", "--dataset", required=True,
-	help="path to the dataset")
-ap.add_argument("-n", "--frame", type=int, default=1,
-	help="process every n'th frame")
+	help="path to the SpeakingFaces dataset")
 ap.add_argument("-i", "--sub_info",  nargs='+', type=int,
 	help="subID(1,...,142) trialID (1,2) posID(1,...,9)")
 ap.add_argument("-y", "--dy",  nargs='+', type=int,
@@ -22,84 +17,99 @@ ap.add_argument("-y", "--dy",  nargs='+', type=int,
 ap.add_argument("-x", "--dx",  nargs='+', type=int,
 	help="a list of shifts in x axis for each position")
 ap.add_argument("-s", "--show", type=int, default=0,
-	help="visualize or not a preliminary result of alignment")
-ap.add_argument("-e", "--session", type =int, default = 1,
-        help="sessionID, 1 for nonspeaking, 2 for speaking")
+	help="visualize (1) or not (0) a preliminary result of alignment")
 args = vars(ap.parse_args())
 
-# load matched features from xlsx file and convert it numpy array 
-df = pd.read_excel (r'calibration'+os.path.sep+'matched_features.xlsx')
+# load the matched features from the .xlsx file to a Pandas table
+# then convert it to a NumPy array 
+df = pd.read_excel (r'calibration/matched_features.xlsx')
 M = df.to_numpy()
 
-# set the option in accordance with the session_id
-opt = "_cmd" if args["session"] == 2 else ""
+# initialize subject ID and trial ID
+sub_id = args["sub_info"][0]
+trial_id = args["sub_info"][1]
 
-# grab the path to the visual images in our dataset
-sub_trial_dataset_path = "{}sub_{}".format(args["dataset"], args["sub_info"][0])+os.path.sep+"trial_{}".format(args["sub_info"][1])  
-rgb_image_filepaths = list(paths.list_images(sub_trial_dataset_path + os.path.sep+"rgb_image{}".format(opt)))
+# initialize number of positions per trial
+# and number of frames per position
+pos_ids = 9
+frame_ids = 900
 
-# create a directory to save aligned images
-rgb_image_aligned_path = sub_trial_dataset_path + os.path.sep+"rgb_image{}_aligned".format(opt)+os.path.sep
+# initialize a path to the dataset
+path_to_dataset = args["dataset"]
+
+# construct a path to the unaligned rgb images 
+rgb_image_path = os.path.join(path_to_dataset, "sub_{}/trial_{}/rgb_image".format(sub_id, trial_id)) 
+
+# construct a path to the thermal images 
+thr_image_path = os.path.join(path_to_dataset, "sub_{}/trial_{}/thr_image".format(sub_id, trial_id))   
+
+# create a directory to save the aligned rgb images
+rgb_image_aligned_path = os.path.join(path_to_dataset, "sub_{}/trial_{}/rgb_image_aligned".format(sub_id, trial_id)) 
 make_dir(rgb_image_aligned_path)
 
-# loop over original visible images in the folders
-for rgb_image_filepath in rgb_image_filepaths:
-
-    # extract the current image info
-    if args["session"] == 1:
-        sub_id, trial_id, session_id, pos_id, frame_id = rgb_image_filepath.split(os.path.sep)[-1].split("_")[-6:-1]
-        command_id = -1
-        rgb_image_aligned_filepath = "{}{}_{}_{}_{}_{}_3.png".format(rgb_image_aligned_path, sub_id, trial_id, session_id, pos_id, frame_id)
-    else:
-        sub_id, trial_id, session_id, pos_id, command_id, frame_id = rgb_image_filepath.split(os.path.sep)[-1].split("_")[-7:-1]
-        rgb_image_aligned_filepath = "{}{}_{}_{}_{}_{}_{}_3.png".format(rgb_image_aligned_path, sub_id, trial_id, session_id, pos_id, command_id, frame_id)
-    
-    # process only the files for the given position if "show" mode is enabled. 
-    if args["sub_info"][2] != int(pos_id) and args["show"]:
-        cv2.destroyAllWindows()
+# loop over the positions 1...9
+for pos_id in range(1, pos_ids + 1):
+    # consider a position that we are going to
+    # align only if the "show" mode is enabled
+    if args["sub_info"][2] != pos_id and args["show"]:
         continue
 
-    # initialize lists of shifts
-    dy = args["dy"][int(pos_id) - 1]
-    dx = args["dx"][int(pos_id) - 1]
+    # grab dy and dx shifts for the given position
+    dy = args["dy"][pos_id - 1]
+    dx = args["dx"][pos_id - 1]
 
+    # construct arrays of matched features
+    # for the given position
     ptsA = np.array([[399 + dx, 345 + dy], [423 + dx, 293 + dy], [293 + dx, 316 + dy], [269 + dx, 368 + dy]])
     ptsB = np.array([[249, 237], [267, 196], [169, 214], [151, 254]])
     
-    # estimate a homography matrix to warp the visible image
+    # estimate a homography matrix
+    # for the given position 
     (H, status) = cv2.findHomography(ptsA, ptsB, cv2.RANSAC, 2.0)
 
-    # process only n'th frames  
-    if int(frame_id) % args["frame"] == 0:
-        print("[INFO] processing image {}".format(rgb_image_filepath.split(os.path.sep)[-1]))
+    # loop over the frames 1...900
+    for frame_id in range(1, frame_ids + 1):
+        print("[INFO] processing sub_{}, trial_{}, pos_{}, frame_{}".format(sub_id, trial_id, pos_id, frame_id))
 
-        # construct the thermal image path using the rgb image path
-        thr_image_filepath = path_to_thermal_image(rgb_image_filepath, sub_trial_dataset_path, os.path.sep+"thr_image{}".format(opt)+os.path.sep)
-        
-        # load rgb and corresponding thermal image 
-        rgb = cv2.imread(rgb_image_filepath)
-        thr = cv2.imread(thr_image_filepath)
+        # construct filenames for rgb and corresponding thermal images  
+        rgb_file = "{}_{}_1_{}_{}_{}.png".format(sub_id, trial_id, pos_id, frame_id, 2)
+        thr_file = "{}_{}_1_{}_{}_{}.png".format(sub_id, trial_id, pos_id, frame_id, 1)
 
-        # grab a size of the thermal image 
-        (H_thr, W_thr) = thr.shape[:2]
+        # construct the final paths to grab rgb and thermal images
+        rgb_file = os.path.join(rgb_image_path, rgb_file)
+        thr_file = os.path.join(thr_image_path, thr_file)
+        #print(rgb_file)
+        #print(thr_file)
+
+        # load rgb and thermal images
+        rgb_image = cv2.imread(rgb_file)        
+        thr_image = cv2.imread(thr_file)
+    
+        # grab height and width of the thermal image 
+        (h_thr, w_thr) = thr_image.shape[:2]
         
-        # warp the rgb image to align with the thermal image
-        rgb = cv2.warpPerspective(rgb, H, (W_thr, H_thr), 
+        # align rgb image with the thermal one
+        rgb_aligned = cv2.warpPerspective(rgb_image, H, (w_thr, h_thr), 
                 flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)
         
+        # show results of the alignment 
         if args["show"]:
-            # make a copy of the rgb image
-            # then replace its RED channel with the RED channel of the thermal image
-            rgb_copy = rgb.copy()
-            rgb_copy[:, :, 2] = thr[:, :, 2]
+            # make a copy of the rgb image and replace its RED channel 
+            # with the RED channel of the thermal image
+            rgb_copy = rgb_aligned.copy()
+            rgb_copy[:, :, 2] = thr_image[:, :, 2]
 
-            # show the images
-            cv2.imshow("Sub:{} Trial:{} Session:{} Pos:{} Command:{} Frame:{}".format(sub_id, trial_id, session_id, pos_id, command_id, frame_id), np.hstack([rgb, thr, rgb_copy]))
+            # show images
+            cv2.imshow("Output".format(
+                sub_id, trial_id, pos_id, frame_id), np.hstack([rgb_aligned, thr_image, rgb_copy]))
             key = cv2.waitKey(0) & 0xFF
 
-            # if the 'q' key is pressed, stop the loop, exit from the program
+            # if the 'q' key is pressed, stop the loop, 
+            # exit from the program
             if key == ord("q"):
                     break
-        # note the images are written if only show is disabled; 
-        # all positions are processed at this point assuming that the optimal shifts have been found and provided
-        cv2.imwrite(rgb_image_aligned_filepath, rgb)
+        else:
+            # construct a path to save the aligned rgb image
+            rgb_aligned_file = "{}_{}_1_{}_{}_{}.png".format(sub_id, trial_id, pos_id, frame_id, 3)
+            rgb_aligned_file = os.path.join(rgb_image_aligned_path, rgb_aligned_file)
+            cv2.imwrite(rgb_aligned_file, rgb_aligned)
