@@ -20,11 +20,6 @@ ap.add_argument("-s", "--show", type=int, default=0,
 	help="visualize (1) or not (0) a preliminary result of alignment")
 args = vars(ap.parse_args())
 
-# load the matched features from the .xlsx file to a Pandas table
-# then convert it to a NumPy array 
-df = pd.read_excel (r'calibration/matched_features.xlsx')
-M = df.to_numpy()
-
 # initialize subject ID and trial ID
 sub_id = args["sub_info"][0]
 trial_id = args["sub_info"][1]
