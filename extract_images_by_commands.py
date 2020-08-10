@@ -106,7 +106,7 @@ ap = argparse.ArgumentParser()
 ap.add_argument("-d", "--dataset", required=True,
         help="path to the SpeakingFaces dataset")
 ap.add_argument("-i", "--sub_info", nargs='+', type=int, default = (0,0),
-        help="subID(1,...,142) trialID (1,2)")
+        help="subID(1,...,142) trialID (1...2)")
 ap.add_argument("-r", "--sub_range", nargs='+', type=int, default = (0,0), 
         help="process more than one subject (1...142)")
 args = vars(ap.parse_args())
