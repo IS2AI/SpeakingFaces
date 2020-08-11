@@ -69,6 +69,7 @@ If the face detection is selected then cropping the ROI is done automatically ba
 <img src="https://raw.githubusercontent.com/IS2AI/SpeakingFaces/master/figures/aligned_session_two.png" width="700">
 
 Otherwise the ROI is defined manually:
+
 <img src="https://raw.githubusercontent.com/IS2AI/SpeakingFaces/master/figures/aligned_session_two_manual.png" width="700">
 
 
