@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/IS2AI/SpeakingFaces/master/figures/speakingface.jpg" width="1200">
+<img src="https://raw.githubusercontent.com/IS2AI/SpeakingFaces/master/figures/speakingface.jpg" width="1280">
 This repository contains the source code developed for collecting and preprocessing SpeakingFaces dataset. The SpeakingFaces consists of well-aligned high-resolution thermal and visual spectra image streams of fully-framed faces synchronized with audio recordings of each subject speaking 100 imperative phrases. Data were collected from 142 subjects, yielding over 14,000 instances of synchronized data (7.5 TB).
 
 ## Dependencies
@@ -54,9 +54,11 @@ FLIR T540 thermal camera (464×348 pixels, 24◦ FOV) and a Logitech C920 Pro HD
 ### Preprocessing data from the second session
 1. To split audio and video files based on commands:
 - Open **record_matlab/extract_video_audio_by_commands.m** file.
-- Initialize the following parameters: **sub_id** - a subject ID, **trial_id** - a trial ID, **path_vid** - a path to the recorded video files, **path_rgb** - a path to save the extracted visual videos, **path_thr** - a path to save the extracted thermal videos by commands, **path_mic1** - a path to save the trimmed audio files by commands from the microphone #1, **path_mic2** - a path to save the trimmed audio files by commands from the microphone #2.
+- Initialize the following parameters: **sub_id** - a subject ID, **trial_id** - a trial ID, **path_vid** - a path to the recorded video files, **path_rgb** - a path to save the extracted visual videos, **path_thr** - a path to save the extracted thermal videos by commands, **path_mic1** - a path to save the extracted audio files by commands from the microphone #1, **path_mic2** - a path to save the extracted audio files by commands from the microphone #2.
 - Launch **record_matlab/extract_video_audio_by_commands.m**
-2. To extract, align and save frames, and also to crop the region of interest (ROI) from the splitted video streams, run **align_crop_session_two.py** script with the following arguments:
+2. The extracted audio files were trimmed manually in case of silence at the end. Recordings from both microphones are identical. Thus after trimming files manually for one of them, the second can be done automatically using **trim_audio.py** script. It automatically finds trimmed and corresonding untrimmed audio files and trims them.
+3. To extract frames from visual and thermal video files based on the trimmed audio files, run **extract_images_by_commands.py** script. It estimates a length of the trimmed audio file and extracts a necessary number of frames accordingly. 
+4. To align the extracted frames, and also to crop the region of interest (ROI), run **align_crop_session_two.py** script with the following arguments:
 - **dataset**: a path to the SpeakingFaces dataset.
 - **sub_info**: subjectID, trialID, positionID.
 - **dy**: a list of shifts (pixels) between streams in y-axis.
