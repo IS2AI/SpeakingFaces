@@ -18,30 +18,31 @@ FLIR T540 thermal camera (464×348 pixels, 24◦ FOV) and a Logitech C920 Pro HD
 ### Data recording for the first session:
 1. Launch the MATLAB and start the global ROS node via MATLAB's terminal: **rosinit**
 2. Open **/record_matlab/record_only_video.m** and initialize the following parameters:
-- sub_id: a subject ID
-- trial_id: a trial ID
-- numOfPosit: a total number of positions
-- numOfFrames: a total number of frames per position 
-- pauseBtwPos: a pause necessary for moving from one position to another (sec)
-- path: a path to save recorded video files
-3. Run **/record_matlab/record_only_video.m**
+- **sub_id**: a subject ID.
+- **trial_id**: a trial ID.
+- **numOfPosit**: a total number of positions.
+- **numOfFrames**: a total number of frames per position. 
+- **pauseBtwPos**: a pause (sec) that is necessary for moving cameras from one position to another.
+- **path**: a path to save the recorded video files.
+3. Launch **/record_matlab/record_only_video.m**
 ### Data recording for the second session:
 1. Launch the MATLAB and start the global ROS node via MATLAB's terminal: **rosinit**
 2. Open **/record_matlab/record_audio_video.m** and initialize the following parameters:
-- sub_id: a subject ID
-- trial_id: a trial ID
-- numOfPosit: a total number of positions
-- fpc: a total number of frames necessary for reading one character 
-- pauseBtwPos: a pause necessary for moving from one position to another (sec)
-- path: a path to save recorded audio and video files
-3. Run **/record_matlab/record_audio_video.m**
+- **sub_id**: a subject ID.
+- **trial_id**: a trial ID.
+- **numOfPosit**: a total number of positions.
+- **fpc**: a number of frames necessary for reading one character. 
+- **pauseBtwPos**: a pause (sec) that is necessary for moving cameras from one position to another.
+- **path**: a path to save the recorded audio and video files.
+3. Launch **/record_matlab/record_audio_video.m**
 
 ## Data preprocessing
 ### Preprocessing data from the first session 
 1. To extract frames from the recorded visual and thermal video streams:
-- Open **record_matlab/extract_images_from_videos.m** file 
-- Initialize the following parameters: **sub_id** - a subject ID, **trial_id** - a trial ID, **path_vid** - a path to video files, **path_rgb** - a path to save visual frames, **path_thr** - a path to save thermal frames
-- Run **record_matlab/extract_images_from_videos.m**
+- Open **record_matlab/extract_images_from_videos.m** file. 
+- Initialize the following parameters: **sub_id** - a subject ID, **trial_id** - a trial ID, **path_vid** - a path to the recorded video files, **path_rgb** - a path to save the extracted visual frames, **path_thr** - a path to save the extracted thermal frames.
+- Launch **record_matlab/extract_images_from_videos.m**
+2. To align the extracted visual and thermal frames:
 
 
 
