@@ -65,7 +65,9 @@ FLIR T540 thermal camera (464×348 pixels, 24◦ FOV) and a Logitech C920 Pro HD
 - **dx**: a list of shifts (pixels) between streams in x-axis.
 - **model**: a face detection model.
 - **show**: visualize (1) or not (0) a preliminary result of the alignment.
+
 If the face detection is selected then cropping the ROI is done automatically based on the facial landmarks:
+
 <img src="https://raw.githubusercontent.com/IS2AI/SpeakingFaces/master/figures/aligned_session_two.png" width="700">
 
 Otherwise the ROI is defined manually:
