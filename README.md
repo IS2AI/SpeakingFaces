@@ -19,5 +19,5 @@ FLIR T540 thermal camera (resolution 464×348 pixels, wave band 7.5μm- 14μm, t
 
 Each subject participated in two trials where each trial consisted of two sessions. In the first session, subjects were silent and still, with the operator capturing the visual and thermal video streams through the procession of nine collection angles. The second session consisted of the subject reading a series of commands as presented one-by-one on the video screens, as the visual, thermal and audio data was collected from the same nine camera positions.
 
-<img src="(https://raw.githubusercontent.com/IS2AI/SpeakingFaces/master/figures/nine_positions_v5.png" width="600">
+<img src="https://raw.githubusercontent.com/IS2AI/SpeakingFaces/master/figures/nine_positions_v5.png" width="600">
 
