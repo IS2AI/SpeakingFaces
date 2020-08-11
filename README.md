@@ -51,6 +51,8 @@ FLIR T540 thermal camera (464×348 pixels, 24◦ FOV) and a Logitech C920 Pro HD
 
 <img src="https://raw.githubusercontent.com/IS2AI/SpeakingFaces/master/figures/aligned_session_one.png" width="900">
 
+3. Alignment for all subjects can be done using **align_session_one_all.py** scripts based on the metdata stored on **metadata/session_1/** directory. 
+
 ### Preprocessing data from the second session
 1. To split audio and video files based on commands:
 - Open **record_matlab/extract_video_audio_by_commands.m** file.
@@ -73,5 +75,7 @@ If the face detection is selected then cropping the ROI is done automatically ba
 Otherwise the ROI is defined manually:
 
 <img src="https://raw.githubusercontent.com/IS2AI/SpeakingFaces/master/figures/aligned_session_two_manual.png" width="700">
+
+5. Alignment for all subjects can be done using **align_session_two_all.py** scripts based on the metdata stored on **metadata/session_2/** directory.
 
 
