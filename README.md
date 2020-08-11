@@ -1,5 +1,5 @@
 # SpeakingFaces
-This repository contains the source code for preprocessing SpeakingFaces dataset. The SpeakingFaces consists of well-aligned high-resolution thermal and visual spectra image streams of fully-framed faces synchronized with audio recordings of each subject speaking 100 imperative phrases. Data was collected from 142 subjects, yielding over 14,000 instances of synchronized data (7.5 TB).
+This repository contains the source code developed for collecting and preprocessing SpeakingFaces dataset. The SpeakingFaces consists of well-aligned high-resolution thermal and visual spectra image streams of fully-framed faces synchronized with audio recordings of each subject speaking 100 imperative phrases. Data were collected from 142 subjects, yielding over 14,000 instances of synchronized data (7.5 TB).
 
 ## Dependencies
 1. Ubuntu 16.04
@@ -35,6 +35,13 @@ FLIR T540 thermal camera (464×348 pixels, 24◦ FOV) and a Logitech C920 Pro HD
 - pauseBtwPos: a pause necessary for moving from one position to another (sec)
 - path: a path to save recorded audio and video files
 3. Run **/record_matlab/record_audio_video.m**
+
+## Data preprocessing
+### Preprocessing data from the first session 
+1. To extract frames from the recorded visual and thermal video streams:
+- Open **record_matlab/extract_images_from_videos.m** file 
+- Initialize the following parameters: **sub_id** - a subject ID, **trial_id** - a trial ID, **path_vid** - a path to video files, **path_rgb** - a path to save visual frames, **path_thr** - a path to save thermal frames
+- Run **record_matlab/extract_images_from_videos.m**
 
 
 
