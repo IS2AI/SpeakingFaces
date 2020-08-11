@@ -9,11 +9,11 @@ close all; clc; clear;
 % subject ID
 sub_id = 1;
 % trial ID
-trial_id = 3;
+trial_id = 1;
 % total number of frames
 numOfFrames = 900;
 % total number of positions within one experiment
-numOfPosit = 2;
+numOfPosit = 9;
 % pause between positions (sec)
 pauseBtwPos = 10;
 % cameras fps (Hz)
