@@ -52,6 +52,7 @@ FLIR T540 thermal camera (464×348 pixels, 24◦ FOV) and a Logitech C920 Pro HD
 
 <img src="https://raw.githubusercontent.com/IS2AI/SpeakingFaces/master/figures/aligned_session_one.png" width="900">
 
-
+### Preprocessing data from the second session
+1. To split audio and video files based on commands:
 
 
