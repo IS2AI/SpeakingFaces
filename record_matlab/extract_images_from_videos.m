@@ -5,9 +5,9 @@ close all; clear; clc;
 % subject ID
 sub_id = 1;
 % trial ID
-trial_id = 3;
+trial_id = 1;
 % number of positions
-numOfPosit = 2;
+numOfPosit = 9;
 % path to the video files
 path_vid = sprintf('C:\\Users\\user\\Documents\\MATLAB\\test_data\\sub_%d\\trial_%d\\video_audio\\', sub_id, trial_id);
 % path for saving thermal images
