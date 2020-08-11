@@ -1,4 +1,4 @@
-# SpeakingFaces
+<img src="https://raw.githubusercontent.com/IS2AI/SpeakingFaces/master/figures/speakingface.jpg" width="1200">
 This repository contains the source code developed for collecting and preprocessing SpeakingFaces dataset. The SpeakingFaces consists of well-aligned high-resolution thermal and visual spectra image streams of fully-framed faces synchronized with audio recordings of each subject speaking 100 imperative phrases. Data were collected from 142 subjects, yielding over 14,000 instances of synchronized data (7.5 TB).
 
 ## Dependencies
