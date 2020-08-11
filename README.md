@@ -42,7 +42,13 @@ FLIR T540 thermal camera (464×348 pixels, 24◦ FOV) and a Logitech C920 Pro HD
 - Open **record_matlab/extract_images_from_videos.m** file. 
 - Initialize the following parameters: **sub_id** - a subject ID, **trial_id** - a trial ID, **path_vid** - a path to the recorded video files, **path_rgb** - a path to save the extracted visual frames, **path_thr** - a path to save the extracted thermal frames.
 - Launch **record_matlab/extract_images_from_videos.m**
-2. To align the extracted visual and thermal frames:
+2. To align the extracted visual and thermal frames, run **align_session_one.py** script with the following arguments:
+- **dataset**: a path to the SpeakingFaces dataset.
+- **sub_info**: subjectID, trialID, positionID.
+- **dy**: a list of shifts (pixels) between streams in y-axis
+- **dx**: a list of shifts (pixels) between streams in x-axis
+- **show**: visualize (1) or not (0) a preliminary result of the alignment
+
 
 
 
