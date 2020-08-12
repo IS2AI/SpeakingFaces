@@ -60,7 +60,7 @@ FLIR T540 thermal camera (464×348 pixels, 24◦ FOV) and a Logitech C920 Pro HD
 - Launch **record_matlab/extract_video_audio_by_commands.m**
 2. Note, the recordings from the two microphones are identical. The extracted audio files from the first microphone were manually trimmed and validated. Based on this processed data, the extracted recordings from the second microphone were automatically trimmed using **trim_audio.py** script.
 3. To extract frames from visual and thermal video files based on the trimmed audio files, run **extract_images_by_commands.py** script. It estimates a length of the trimmed audio file and extracts a necessary number of frames accordingly. 
-4. To align the extracted frames, and also to crop the region of interest (ROI), run **align_crop_session_two.py** script with the following arguments:
+4. To align the extracted frames, and also to crop the mouth region of interest (ROI), run **align_crop_session_two.py** script with the following arguments:
 - **dataset**: a path to the SpeakingFaces dataset.
 - **sub_info**: subjectID, trialID, positionID.
 - **dy**: a list of shifts (pixels) between streams in y-axis.
@@ -68,7 +68,7 @@ FLIR T540 thermal camera (464×348 pixels, 24◦ FOV) and a Logitech C920 Pro HD
 - **model**: a face detection model.
 - **show**: visualize (1) or not (0) a preliminary result of the alignment.
 
-If the face detection is selected then cropping the ROI is done automatically based on the facial landmarks:
+If the face detection is selected, then the ROI is cropped automatically using facial landmarks:
 
 <img src="https://raw.githubusercontent.com/IS2AI/SpeakingFaces/master/figures/aligned_session_two.png" width="700">
 
@@ -76,6 +76,6 @@ Otherwise the ROI is defined manually:
 
 <img src="https://raw.githubusercontent.com/IS2AI/SpeakingFaces/master/figures/aligned_session_two_manual.png" width="700">
 
-5. Alignment for all subjects can be done using **align_session_two_all.py** scripts based on the metdata stored on **metadata/session_2/** directory.
+5. Alignment for all subjects can be done using **align_session_two_all.py** scripts based on the metadata stored in **metadata/session_2/** directory.
 
 
