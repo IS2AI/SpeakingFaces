@@ -42,7 +42,7 @@ FLIR T540 thermal camera (464×348 pixels, 24◦ FOV) and a Logitech C920 Pro HD
 - Open **record_matlab/extract_images_from_videos.m** file. 
 - Initialize the following parameters: **sub_id** - a subject ID, **trial_id** - a trial ID, **path_vid** - a path to the recorded video files, **path_rgb** - a path to save the extracted visual frames, **path_thr** - a path to save the extracted thermal frames.
 - Launch **record_matlab/extract_images_from_videos.m**
-2. To align the extracted visual frames with corresponding thermal frames, run **align_session_one.py** script with the following arguments:
+2. To align the extracted visual frames with their thermal pairs, run **align_session_one.py** script with the following arguments:
 - **dataset**: a path to the SpeakingFaces dataset.
 - **sub_info**: subjectID, trialID, positionID.
 - **dy**: a list of shifts (pixels) between streams in y-axis.
@@ -51,14 +51,14 @@ FLIR T540 thermal camera (464×348 pixels, 24◦ FOV) and a Logitech C920 Pro HD
 
 <img src="https://raw.githubusercontent.com/IS2AI/SpeakingFaces/master/figures/aligned_session_one.png" width="900">
 
-3. Alignment for all subjects can be done using **align_session_one_all.py** scripts based on the metdata stored on **metadata/session_1/** directory. 
+3. Alignment for all subjects can be done using **align_session_one_all.py** script and metadata stored in **metadata/session_1/** directory. 
 
 ### Preprocessing data from the second session
 1. To split audio and video files based on commands:
 - Open **record_matlab/extract_video_audio_by_commands.m** file.
 - Initialize the following parameters: **sub_id** - a subject ID, **trial_id** - a trial ID, **path_vid** - a path to the recorded video files, **path_rgb** - a path to save the extracted visual videos, **path_thr** - a path to save the extracted thermal videos by commands, **path_mic1** - a path to save the extracted audio files by commands from the microphone #1, **path_mic2** - a path to save the extracted audio files by commands from the microphone #2.
 - Launch **record_matlab/extract_video_audio_by_commands.m**
-2. The extracted audio files were trimmed manually in case of silence at the end. Recordings from both microphones are identical. Thus after trimming files manually for one of them, the second can be done automatically using **trim_audio.py** script. It automatically finds trimmed and corresonding untrimmed audio files and trims them.
+2. Note, the recordings from the two microphones are identical. The extracted audio files from the first microphone were manually trimmed and validated. Based on this processed data, the extracted recordings from the second microphone were automatically trimmed using **trim_audio.py** script.
 3. To extract frames from visual and thermal video files based on the trimmed audio files, run **extract_images_by_commands.py** script. It estimates a length of the trimmed audio file and extracts a necessary number of frames accordingly. 
 4. To align the extracted frames, and also to crop the region of interest (ROI), run **align_crop_session_two.py** script with the following arguments:
 - **dataset**: a path to the SpeakingFaces dataset.
