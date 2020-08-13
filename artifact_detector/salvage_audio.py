@@ -26,7 +26,7 @@ def get_input_filepath(input_name, dataset_path, mic_id):
         data_folder = 'valid_data'
     else:
         data_folder = 'train_data'
-    input_filepath = '{}/{}/sub_{}/trial_{}/mic{}_audio_cmd_trim/{}.wav'.format(dataset_path, data_folder, sub_id, trial_id, mic_id, input_name)
+    input_filepath = '{}/{}/sub_{}/trial_{}/mic{}_audio_cmd/{}.wav'.format(dataset_path, data_folder, sub_id, trial_id, mic_id, input_name)
     return input_filepath
 
 
@@ -92,13 +92,11 @@ dataset_path = args["dataset"]
 print(dataset_path)
 
 # read a csv file without the last column
-df = pd.read_csv(dataset_path + '/csvs/salvage_mission_train_data.csv')
+df = pd.read_csv(dataset_path + '/csvs/salvage_mission_all_data.csv')
 df = df.iloc[:, :-1]
-print(df)
+print(df.head())
 
-#salvaged_num = 0
-
-for mic_id in range(2):
+for mic_id in range(1,3):
     for i in range(len(df)):
         input_name = df.raw_audio_name[i]
         input_audio_filepath = get_input_filepath(input_name, dataset_path, mic_id)
@@ -109,12 +107,11 @@ for mic_id in range(2):
             audio_duration = 1000 * input_audio.duration_seconds
 
             # convert seconds to milliseconds
-            begin_time = 1000 * int(df.begin_timestamp[i])
-            end_time = 1000 * int(df.end_timestamp[i])
+            begin_time = 1000 * df.begin_timestamp[i]
+            end_time = 1000 * df.end_timestamp[i]
 
             # output path and output file name
             output_audio_filepath = get_output_filepath(df, input_name, dataset_path, mic_id)
-
             # 4 categories: copy, trim, merge and trim, skip
             if df.comment[i] == 'copy':
                 copy_audio(input_audio_filepath, output_audio_filepath)
@@ -128,23 +125,16 @@ for mic_id in range(2):
                 # read an audio file on the next row
                 input_name_2 = df.raw_audio_name[i+1]
                 input_audio_filepath_2 = get_input_filepath(input_name_2, dataset_path, mic_id)
-                input_audio_2 = AudioSegment.from_wav(input_audio_filepath_2)
+                #input_audio_2 = AudioSegment.from_wav(input_audio_filepath_2)
 
-                merge_and_trim_audio(input_name, input_audio, input_audio_2, begin_time, end_time, output_audio_filepath, audio_duration)
+                merge_and_trim_audio(input_name, input_audio,  input_audio_filepath_2, begin_time, end_time, output_audio_filepath, audio_duration)
                 print('[INFO] done merging and trimming {}.wav'.format(input_name))
 
             elif 'skip' in df.comment[i]:
-                # salvaged_num -= 1
                 print('[INFO] skipping {}.wav'.format(input_name))
 
             else:
-                # salvaged_num -= 1
                 print('[ERROR] comment not provided for {}.wav'.format(input_name))
-
-
         else:
             print("[ERROR] {}.wav doesn't exist".format(input_name))
 
-    # salvaged_num += 1
-    # print(salvaged_num)
-    # salvaged_num = 0
