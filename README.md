@@ -11,12 +11,12 @@ This repository contains the source code developed for collecting and preprocess
 ### For pre-processing data
 1. Ubuntu 16.04
 3. Python 3.x.x
-4. OpenCV 4.x.x
-5. NumPy -> **pip install numpy**
-6. Pandas -> **pip install pandas**
-7. SciPy -> **pip install scipy**
-8. imutils -> **pip install imutils** 
-9. face_recognition -> **pip install face_recognition**
+4. OpenCV 4.x.x: https://www.pyimagesearch.com/2018/08/15/how-to-install-opencv-4-on-ubuntu/ 
+5. NumPy: **pip install numpy**
+6. Pandas: **pip install pandas**
+7. SciPy: **pip install scipy**
+8. imutils: **pip install imutils** 
+9. face_recognition: **pip install face_recognition**
 
 ## Data Acquisition
 FLIR T540 thermal camera (464×348 pixels, 24◦ FOV) and a Logitech C920 Pro HD web-camera (768×512 pixels, 78◦ FOV) with a built-in dual stereo microphone were used for data collection purpose. Each subject participated in two trials where each trial consisted of **two sessions**. In the **first session**, subjects were silent and still, with the operator capturing the **visual** and **thermal** video streams through the procession of nine collection angles. The **second session** consisted of the subject reading a series of commands as presented one-by-one on the video screens, as the **visual**, **thermal** and **audio** data was collected from the same nine camera positions.
