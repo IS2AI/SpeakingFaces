@@ -19,7 +19,7 @@ def make_dir(dirName):
         print("[INFO] Directory ", dirName, " already exists")
 
 
-def get_input_filepath(input_name, dataset_path, stream_id):
+def get_input_dir(input_name, dataset_path, stream_id):
     raw_name_list = input_name.split("_")
     sub_id = int(raw_name_list[0])
     trial_id = raw_name_list[1]
@@ -30,8 +30,13 @@ def get_input_filepath(input_name, dataset_path, stream_id):
     else:
         data_folder = 'train_data'
     opt = 'thr' if stream_id == 1 else 'rgb'
-    input_filepath = '{}/{}/sub_{}/trial_{}/{}_video_cmd/{}.avi'.format(dataset_path, data_folder, sub_id, trial_id, opt, input_name)
-    return input_filepath
+    input_dir = '{}/{}/sub_{}/trial_{}/{}_video_cmd'.format(dataset_path, data_folder, sub_id, trial_id, opt)
+    return input_dir
+
+
+def get_input_filepath(input_dir, input_name):
+    input_file_path = '{}/{}.avi'.format(input_dir, input_name)
+    return input_file_path
 
 
 def get_output_dir(input_name, dataset_path, stream_id):
@@ -119,7 +124,7 @@ def merge_and_trim_video(df, video_duration, output_dir):
     extract_frame('{}/{}_end.avi'.format(output_dir, input_name), duration, output_dir, frame_id)
 
 
-# construct the argument parse and parse the arguments
+# construct the argument parse and parse the argument
 ap = argparse.ArgumentParser()
 ap.add_argument("-d", "--dataset", required=True, help="path to dataset")
 
@@ -135,17 +140,20 @@ print(df.head())
 
 for stream_id in range(1,3):
     for i in range(len(df)):
-        input_name = df.raw_audio_name[i]
-        input_video_file = get_input_filepath(input_name, dataset_path, stream_id)
+        # read a video file
+        input_name = df.raw_audio_name[i][:-1] + str(mic_id)
+        input_dir = get_input_dir(input_name, dataset_path, stream_id)
+        input_filepath = get_input_filepath(input_dir, input_name)
+        
         # check if a file exists
-        if os.path.isfile(input_video_file):
-            video_duration = VideoFileClip(input_video_file).duration
+        if os.path.isfile(input_filepath):
+            video_duration = VideoFileClip(input_filepath).duration
             output_dir = get_output_dir(input_name, dataset_path, stream_id)
             output_video_file = get_output_filepath(input_name, output_dir) 
             '''
             # 4 categories: copy, trim, merge and trim, skip
             if df.comment[i] == 'copy':
-                copy_video(input_video_file, output_video_file)
+                copy_video(input_filepath, output_video_file)
                 print('[INFO] {}.avi is copied'.format(input_name))
 
             if df.comment[i] == 'trim':
