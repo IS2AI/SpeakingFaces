@@ -50,13 +50,14 @@ def get_output_dir(input_name, dataset_path, stream_id):
     else:
         data_folder = 'train_data'
     opt = 'thr' if stream_id == 1 else 'rgb'
-    output_dir = '{}/salvaged_files/{}/sub_{}/trial_{}/{}_image_cmd'.format(dataset_path, data_folder, sub_id, trial_id, opt)
+    output_dir = '{}/salvaged_files/{}/sub_{}/trial_{}/{}_image_cmd'.format(dataset_path, data_folder, sub_id, trial_id,
+                                                                            opt)
     make_dir(output_dir)
     return output_dir
 
 
 def get_output_filepath(input_name, output_dir):
-    # rename an audio file if needed
+    # rename a video file if needed
     if pd.notna(df.new_name[i]):
         old_name = input_name
         name_list = input_name.split("_")
@@ -66,13 +67,12 @@ def get_output_filepath(input_name, output_dir):
     return '{}/{}.avi'.format(output_dir, input_name)
 
 
-# function is the same as copy_audio(df, output_folder)
 def copy_video(input_filepath, output_filepath):
     shutil.copy(input_filepath, output_filepath)
 
 
-def extract_frame(filename, duration, output_dir, frame_id=1):
-    cap = cv2.VideoCapture(filename)
+def extract_frame(input_name, input_filepath, duration, output_dir, frame_id=1):
+    cap = cv2.VideoCapture(input_filepath)
     max_num_frames = int(duration * 28)
     while (cap.isOpened() and frame_id <= max_num_frames):
         ret, frame = cap.read()
@@ -88,40 +88,49 @@ def extract_frame(filename, duration, output_dir, frame_id=1):
 
     cap.release()
     cv2.destroyAllWindows()
-    print('[INFO] done extracting frames from {}.avi'.format(input_name))
     return frame_id
 
 
-def trim_video(df, video_duration, output_video_file, output_dir):
+def trim_video(df, input_name, input_filepath, video_duration, output_filepath, output_dir):
     # use video duration for end timestamp, if NaN
     if pd.isna(df.end_timestamp[i]):
         df.end_timestamp[i] = video_duration
-        print('[INFO] done updating end timestamp for {}.avi'.format(input_name))
 
     # trim a video file based on timestamps and save it
-    ffmpeg_extract_subclip(input_name + '.avi', df.begin_timestamp[i], df.end_timestamp[i],
-                           targetname=output_video_file)
+    ffmpeg_extract_subclip(input_filepath, df.begin_timestamp[i], df.end_timestamp[i],
+                           targetname=output_filepath)
 
     # extract frames from a video file
-    extract_frame(output_video_file, video_duration, output_dir)
+    extract_frame(input_name, output_filepath, video_duration, output_dir)
 
 
-def merge_and_trim_video(df, video_duration, output_dir):
+def merge_and_trim_video(df, input_name, input_filepath, video_duration, output_filepath, output_dir):
+    # read a video file on the next row
+    input_name_2 = df.raw_audio_name[i+1]
+    input_filepath_2 = input_dir + '/' + input_name_2 + '.avi'
+
     # trim the first video file based on begin_timestamp
-    ffmpeg_extract_subclip(input_name + '.avi', df.begin_timestamp[i], video_duration,
-                           targetname='{}/{}_begin.avi'.format(output_dir, input_name))
+    ffmpeg_extract_subclip(input_filepath, df.begin_timestamp[i], video_duration,
+                           targetname=output_filepath[:-4] + '_begin.avi')
 
     # trim the second video file based on end_timestamp
-    ffmpeg_extract_subclip(df.raw_audio_name[i+1] + '.avi', 0, df.end_timestamp[i],
-                           targetname='{}/{}_end.avi'.format(output_dir, input_name))
+    ffmpeg_extract_subclip(input_filepath_2, 0, df.end_timestamp[i],
+                           targetname=output_filepath[:-4] + '_end.avi')
 
     # extract frames from the first video
     duration = (video_duration - df.begin_timestamp[i])
-    frame_id = extract_frame('{}/{}_begin.avi'.format(output_dir, input_name), duration, output_dir)
+    frame_id = extract_frame(input_name, output_filepath[:-4] + '_begin.avi', duration, output_dir)
 
     # extract frames from the second video
     duration = (df.end_timestamp[i])
-    extract_frame('{}/{}_end.avi'.format(output_dir, input_name), duration, output_dir, frame_id)
+    extract_frame(input_name, output_filepath[:-4] + '_end.avi', duration, output_dir, frame_id)
+
+
+def remove_avi_extension(output_dir):
+    test = os.listdir(output_dir)
+    for item in test:
+        if item.endswith('.avi'):
+            os.remove(os.path.join(output_dir, item))
 
 
 # construct the argument parse and parse the argument
@@ -138,34 +147,36 @@ df = pd.read_csv(dataset_path + '/csvs/salvage_mission_all_data.csv')
 df = df.iloc[:, :-1]
 print(df.head())
 
-for stream_id in range(1,3):
+for stream_id in range(1, 3):
     for i in range(len(df)):
         # read a video file
-        input_name = df.raw_audio_name[i][:-1] + str(mic_id)
+        input_name = df.raw_audio_name[i][:-1] + str(stream_id)
         input_dir = get_input_dir(input_name, dataset_path, stream_id)
         input_filepath = get_input_filepath(input_dir, input_name)
-        
+
         # check if a file exists
         if os.path.isfile(input_filepath):
             video_duration = VideoFileClip(input_filepath).duration
             output_dir = get_output_dir(input_name, dataset_path, stream_id)
-            output_video_file = get_output_filepath(input_name, output_dir) 
-            '''
+            output_filepath = get_output_filepath(input_name, output_dir)
+
             # 4 categories: copy, trim, merge and trim, skip
             if df.comment[i] == 'copy':
-                copy_video(input_filepath, output_video_file)
+                copy_video(input_filepath, output_filepath)
                 print('[INFO] {}.avi is copied'.format(input_name))
 
             if df.comment[i] == 'trim':
-                trim_video(df, video_duration, output_video_file)
+                trim_video(df, input_name, input_filepath, video_duration, output_filepath, output_dir)
                 print('[INFO] done trimming {}.avi'.format(input_name))
 
             if df.comment[i] == 'merge and trim':
-                merge_and_trim_video(df, video_duration, output_dir)
+                merge_and_trim_video(df, input_name, input_filepath, video_duration, output_filepath, output_dir)
                 print('[INFO] done merging and trimming {}.avi'.format(input_name))
 
             if 'skip' in df.comment[i]:
                 print('[INFO] {}.avi is skipped'.format(input_name))
-            '''
+
+            remove_avi_extension(output_dir)
+
         else:
             print("[ERROR] {}.avi doesn't exist".format(input_name))
