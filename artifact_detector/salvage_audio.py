@@ -16,33 +16,8 @@ def make_dir(dirName):
         print("[INFO] Directory ", dirName, " already exists")
 
 
-def get_input_filepath(input_name, dataset_path, mic_id):
-    raw_name_list = input_name.split("_")
-    sub_id = int(raw_name_list[0])
-    trial_id = raw_name_list[1]
-    if sub_id in range(121, 143):
-        data_folder = 'test_data'
-    elif sub_id in range(101, 121):
-        data_folder = 'valid_data'
-    else:
-        data_folder = 'train_data'
-    input_filepath = '{}/{}/sub_{}/trial_{}/mic{}_audio_cmd/{}.wav'.format(dataset_path, data_folder, sub_id, trial_id, mic_id, input_name)
-    return input_filepath
-
-
-def get_output_filepath(df, input_name, dataset_path, mic_id):
-    raw_name_list = input_name.split("_")
-    sub_id = int(raw_name_list[0])
-    trial_id = raw_name_list[1]
-    if sub_id in range(121, 143):
-        data_folder = 'test_data'
-    elif sub_id in range(101, 121):
-        data_folder = 'valid_data'
-    else:
-        data_folder = 'train_data'
-    output_data_path = '{}/salvaged_files/{}/sub_{}/trial_{}/mic{}_audio_cmd_trim'.format(dataset_path, data_folder, sub_id, trial_id, mic_id)
-    make_dir(output_data_path)
-
+def get_output_filepath(df, input_name, output_data_path):
+    
     # rename an audio file if needed
     if pd.notna(df.new_name[i]):
         old_name = input_name
@@ -50,12 +25,9 @@ def get_output_filepath(df, input_name, dataset_path, mic_id):
         name_list[4] = str(int(df.new_name[i]))
         input_name = "_".join(name_list)
         print('[INFO] {}.wav renamed as {}.wav'.format(old_name, input_name))
+
     output_filepath = '{}/{}.wav'.format(output_data_path, input_name)
     return output_filepath
-
-
-def copy_audio(input_filepath, output_filepath):
-    shutil.copy(input_filepath, output_filepath)
 
 
 def trim_audio(input_name, input_audio, begin_time, end_time, output_audio_filepath, audio_duration=-100):
@@ -68,18 +40,6 @@ def trim_audio(input_name, input_audio, begin_time, end_time, output_audio_filep
     output_audio = input_audio[begin_time:end_time]
     output_audio.export(output_audio_filepath, format='wav')
 
-
-def merge_and_trim_audio(input_name, input_audio, input_audio_2, begin_time, end_time, output_audio_filepath, audio_duration):
-    # update end_timestamp
-    end_time = end_time + audio_duration
-    print('[INFO] done updating end timestamp for {}.wav'.format(input_name))
-
-    # merge two audio files (audio file i with audio file i+1)
-    input_audio_2 = AudioSegment.from_wav(input_audio_2)
-    merge_output = input_audio + input_audio_2
-
-    # trim and save an audio file
-    trim_audio(input_name, merge_output, begin_time, end_time, output_audio_filepath)
 
 
 # construct the argument parse and parse the arguments
@@ -99,7 +59,22 @@ print(df.head())
 for mic_id in range(1,3):
     for i in range(len(df)):
         input_name = df.raw_audio_name[i]
-        input_audio_filepath = get_input_filepath(input_name, dataset_path, mic_id)
+
+        # get full information about the current trial
+        raw_name_list = input_name.split("_")
+        sub_id = int(raw_name_list[0])
+        trial_id = raw_name_list[1]
+        if sub_id in range(121, 143):
+            data_folder = 'test_data'
+        elif sub_id in range(101, 121):
+            data_folder = 'valid_data'
+        else:
+            data_folder = 'train_data'
+        trial_info = "{}/sub_{}/trial_{}".format(data_folder, sub_id, trial_id)    
+        
+        input_audio_filepath = '{}/{}/mic{}_audio_cmd/{}.wav'.format(dataset_path, trial_info, mic_id, input_name)    
+
+
         # check if a file exists
         if os.path.isfile(input_audio_filepath):
             # read an audio file and timestamps
@@ -110,11 +85,14 @@ for mic_id in range(1,3):
             begin_time = 1000 * df.begin_timestamp[i]
             end_time = 1000 * df.end_timestamp[i]
 
-            # output path and output file name
-            output_audio_filepath = get_output_filepath(df, input_name, dataset_path, mic_id)
+            # make the directory for the output file and get the updated filepath
+            output_dir = '{}/salvaged_files/{}/mic{}_audio_cmd_trim'.format(dataset_path, trial_info, mic_id)
+            make_dir(output_dir)
+            output_audio_filepath = get_output_filepath(df, input_name, output_dir)
+            
             # 4 categories: copy, trim, merge and trim, skip
             if df.comment[i] == 'copy':
-                copy_audio(input_audio_filepath, output_audio_filepath)
+                shutil.copy(input_audio_filepath, output_audio_filepath)
                 print('[INFO] done copying {}.wav'.format(input_name))
 
             elif df.comment[i] == 'trim':
@@ -123,11 +101,18 @@ for mic_id in range(1,3):
 
             elif df.comment[i] == 'merge and trim':
                 # read an audio file on the next row
-                input_name_2 = df.raw_audio_name[i+1]
-                input_audio_filepath_2 = get_input_filepath(input_name_2, dataset_path, mic_id)
-                #input_audio_2 = AudioSegment.from_wav(input_audio_filepath_2)
-
-                merge_and_trim_audio(input_name, input_audio,  input_audio_filepath_2, begin_time, end_time, output_audio_filepath, audio_duration)
+                input_audio_filepath_2 = '{}/{}/mic{}_audio_cmd/{}.wav'.format(dataset_path, trial_info, mic_id, df.raw_audio_name[i+1])    
+                input_audio_2 = AudioSegment.from_wav(input_audio_filepath_2)
+    
+                # merge two audio files (audio file i with audio file i+1)
+                merge_output = input_audio + input_audio_2
+                
+                # update end_timestamp for the merged audio file
+                end_time = end_time + audio_duration
+                
+                # trim and save an audio file
+                trim_audio(input_name, merge_output, begin_time, end_time, output_audio_filepath)
+                
                 print('[INFO] done merging and trimming {}.wav'.format(input_name))
 
             elif 'skip' in df.comment[i]:
