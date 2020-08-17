@@ -5,7 +5,7 @@ This repository contains the source code developed for collecting and preprocess
 ### For recording data
 1. OS Windows 10
 2. FLIR Atlas SDK for MATLAB
-- Documentation of the SDK: **http://cdn.cloud.flir.se/update/flir%20atlas/3.1.16014.2001/help/html/88d943d8-784c-48a5-8e97-3eb096b4fdca.htm**
+- Documentation of the SDK: http://cdn.cloud.flir.se/update/flir%20atlas/3.1.16014.2001/help/html/88d943d8-784c-48a5-8e97-3eb096b4fdca.htm
 3. MATLAB 2019.x 
 - Computer Vision Toolbox
 - ROS Toolbox
