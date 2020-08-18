@@ -5,9 +5,6 @@ import os
 
 
 def face_region_extractor(face_net, visible_image, threshold):
-	# convert the visible image from BGR to grayscale 
-	gray = cv2.cvtColor(visible_image, cv2.COLOR_BGR2GRAY)
-
 	# grab the size of the visible image 
 	(h, w) = visible_image.shape[:2]
 
