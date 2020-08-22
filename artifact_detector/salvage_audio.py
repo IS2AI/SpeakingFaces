@@ -58,7 +58,7 @@ print(df.head())
 
 for mic_id in range(1,3):
     for i in range(len(df)):
-        input_name = df.raw_audio_name[i]
+        input_name = df.raw_audio_name[i][:-1] + str(mic_id)
 
         # get full information about the current trial
         raw_name_list = input_name.split("_")
