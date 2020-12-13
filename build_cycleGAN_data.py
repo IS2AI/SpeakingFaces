@@ -60,24 +60,10 @@ num_train_subjects = 100
 train_samples = 0
 test_samples = 0
 
-# read information about subjects from a .csv file 
-# to Pandas table and convert it to NumPy array
-sub_info = pd.read_csv('metadata/subjects.csv').to_numpy()
-
 # loop over the subjects 1...142
 for sub_id in range(1, sub_ids + 1):
-	# skip Black ethnicities 
-	ethnicity = sub_info[sub_id - 1, 4]
-	if ethnicity == "Black":
-		continue
-
 	# loop over the trials 1..2
 	for trial_id in range(1, trial_ids + 1):
-		# skip subjects with accessories
-		acc = sub_info[sub_id - 1, trial_id + 4]
-		if acc != "None":
-			continue
-
 		# construct paths to the folders with rgb and thermal images
 		if sub_id <= 100:
 			rgb_path = os.path.join(args["dataset"], "train_data/sub_{}/trial_{}/rgb_image_aligned".format(sub_id, trial_id))
