@@ -1,6 +1,8 @@
 <img src="https://raw.githubusercontent.com/IS2AI/SpeakingFaces/master/figures/speakingface.jpg" width="1280">
 This repository contains the source code developed for collecting and preprocessing SpeakingFaces dataset. The SpeakingFaces consists of well-aligned high-resolution thermal and visual spectra image streams of fully-framed faces synchronized with audio recordings of each subject speaking 100 imperative phrases. Data were collected from 142 subjects, yielding over 13,000 instances of synchronized data (3.8 TB).
 
+Link to the paper: https://arxiv.org/pdf/2012.02961.pdf 
+
 ## Dependencies
 ### For recording data
 1. OS Windows 10
@@ -84,5 +86,17 @@ Otherwise the ROI is defined manually:
 <img src="https://raw.githubusercontent.com/IS2AI/SpeakingFaces/master/figures/aligned_session_two_manual.png" width="700">
 
 5. Alignment for all subjects can be done using **align_session_two_all.py** scripts based on the metadata stored in **metadata/session_2/** directory.
+
+## If you use this code in research, please cite the following paper:
+```
+@misc{abdrakhmanova2020speakingfaces,
+      title={SpeakingFaces: A Large-Scale Multimodal Dataset of Voice Commands with Visual and Thermal Video Streams}, 
+      author={Madina Abdrakhmanova and Askat Kuzdeuov and Sheikh Jarju and Yerbolat Khassanov and Michael Lewis and Huseyin Atakan Varol},
+      year={2020},
+      eprint={2012.02961},
+      archivePrefix={arXiv},
+      primaryClass={cs.HC}
+}
+```
 
 
