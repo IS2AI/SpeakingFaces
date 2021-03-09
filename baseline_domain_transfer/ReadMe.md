@@ -1,6 +1,6 @@
 ## Thermal-Visible Image Translation
-### [Dataset](https://drive.google.com/drive/folders/1tMFXKaoy1EkJdafi3VpKZa6_ovUS4OJM?usp=sharing)
-Download thermal2visible_speakingfaces dataset. 
+### Dataset
+Download [thermal2visible_speakingfaces](https://drive.google.com/drive/folders/1tMFXKaoy1EkJdafi3VpKZa6_ovUS4OJM?usp=sharing) dataset. 
 
 ### CycleGAN Model
 1. Clone the original repo https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix and install dependencies. 
