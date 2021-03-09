@@ -7,14 +7,14 @@ Link to the paper: https://arxiv.org/pdf/2012.02961.pdf
 ### For recording data
 1. OS Windows 10
 2. FLIR Atlas SDK for MATLAB
-- Documentation of the SDK: http://cdn.cloud.flir.se/update/flir%20atlas/3.1.16014.2001/help/html/88d943d8-784c-48a5-8e97-3eb096b4fdca.htm
+- Documentation of the SDK can be found [here.](http://cdn.cloud.flir.se/update/flir%20atlas/3.1.16014.2001/help/html/88d943d8-784c-48a5-8e97-3eb096b4fdca.htm)
 3. MATLAB 2019.x 
 - Computer Vision Toolbox
 - ROS Toolbox
 ### For pre-processing data
 1. Ubuntu 16.04
 3. Python 3.x.x
-4. OpenCV 4.x.x: https://www.pyimagesearch.com/2018/08/15/how-to-install-opencv-4-on-ubuntu/ 
+4. OpenCV 4.x.x.  
 5. NumPy: **pip install numpy**
 6. Pandas: **pip install pandas**
 7. SciPy: **pip install scipy**
