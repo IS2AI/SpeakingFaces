@@ -10,7 +10,7 @@ python train.py  --dataroot ./thermal2visible_speakingfaces/ --model cycle_gan -
 ```
 3. Test the model on thermal2visible_speakingfaces dataset:
 ```
-python test.py  --dataroot ./thermal2visible_speakingfaces/  --model cycle_gan --gpu_ids 0 --batch_size 1 --load_size 130 --crop_size 128 --name gan_cycle --num_test 1134
+python test.py  --dataroot ./thermal2visible_speakingfaces/  --model cycle_gan --gpu_ids 0 --batch_size 1 --load_size 130 --crop_size 128 --name gan_cycle --num_test 2268
 ```
 
 ### CUT Model
@@ -21,7 +21,7 @@ python train.py  --dataroot ./thermal2visible_speakingfaces/  --name gan_cut --C
 ```
 3. Test the model on thermal2visible_speakingfaces dataset:
 ```
-python test.py  --dataroot ./thermal2visible_speakingfaces/  --CUT_mode CUT --gpu_ids 0 --batch_size 1  --netG resnet_9blocks --load_size 258 --crop_size 256 --name gan_cut --num_test 1134
+python test.py  --dataroot ./thermal2visible_speakingfaces/  --CUT_mode CUT --gpu_ids 0 --batch_size 1  --netG resnet_9blocks --load_size 258 --crop_size 256 --name gan_cut --num_test 2268
 ```
 ## Face Recognition 
 1. Download our results on the test set: [GANs_results.zip](https://drive.google.com/drive/folders/1tMFXKaoy1EkJdafi3VpKZa6_ovUS4OJM?usp=sharing).  
