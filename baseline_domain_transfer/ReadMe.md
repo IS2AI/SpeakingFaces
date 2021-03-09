@@ -24,7 +24,7 @@ python train.py  --dataroot ./thermal2visible_speakingfaces/  --name gan_cut --C
 python test.py  --dataroot ./thermal2visible_speakingfaces/  --CUT_mode CUT --gpu_ids 0 --batch_size 1  --netG resnet_9blocks --load_size 258 --crop_size 256 --name gan_cut --num_test 1134
 ```
 ## Face Recognition 
-1. Download our results on the test set [here](https://drive.google.com/drive/folders/1tMFXKaoy1EkJdafi3VpKZa6_ovUS4OJM?usp=sharing).  
+1. Download our results on the test set: [GANs_results.zip](https://drive.google.com/drive/folders/1tMFXKaoy1EkJdafi3VpKZa6_ovUS4OJM?usp=sharing).  
 2. Extract and save the facial embeddings from the real visible images (test set, only first trial):
 ```
 python embeddings.py --images ./GANs_results/real_B
