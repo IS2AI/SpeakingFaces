@@ -21,7 +21,7 @@ python train.py  --dataroot ./thermal2visible_speakingfaces/  --name gan_cut --C
 ```
 3. Test the model on thermal2visible_speakingfaces dataset:
 ```
-python test.py  --dataroot ./thermal2visible_speakingfaces/  --CUT_mode CUT --gpu_ids 0 --batch_size 1  --netG resnet_9blocks --load_size 258 --crop_size 256 --name gan_cut --num_test 2268
+python test.py  --dataroot ./thermal2visible_speakingfaces/  --CUT_mode CUT --gpu_ids 0 --batch_size 1  --netG resnet_9blocks --load_size 130 --crop_size 128 --name gan_cut --num_test 2268
 ```
 ## Face Recognition 
 1. Download our results on the test set: [GANs_results.zip](https://drive.google.com/drive/folders/1tMFXKaoy1EkJdafi3VpKZa6_ovUS4OJM?usp=sharing).  
@@ -39,11 +39,11 @@ python face_recognition_test.py --images ./GANs_results/real_A/ --thr 0.45
 ```
 5. Test the face recognition on the fake visible images (test set, second trial, CycleGAN):
 ```
-python face_recognition_test.py --images ./GANs_results/fake_B_cycle_gan/ --thr 0.45 --size 112
+python face_recognition_test.py --images ./GANs_results/fake_B_cycle_gan/ --thr 0.45 
 ```
 6. Test the face recognition on the fake visible images (test set, second trial, CUT):
 ```
-python face_recognition_test.py --images ./GANs_results/fake_B_cut/ --thr 0.45 --size 112
+python face_recognition_test.py --images ./GANs_results/fake_B_cut/ --thr 0.45 
 ```
 
 ## If you use visible2thermal_speakingfaces dataset and/or the provided code in your research then please cite our paper:
