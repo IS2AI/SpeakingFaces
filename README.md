@@ -90,7 +90,7 @@ Otherwise the ROI is defined manually:
 ## [Thermal-Visible Image Translation](https://github.com/IS2AI/SpeakingFaces/tree/master/baseline_domain_transfer)
 <img src="https://raw.githubusercontent.com/IS2AI/SpeakingFaces/master/figures/thermal2visible.png" width="700">
 
-## If you use this code in research, please cite the following paper:
+## If you use our dataset and/or this repo in your research, please cite the following paper:
 ```
 @misc{abdrakhmanova2020speakingfaces,
       title={SpeakingFaces: A Large-Scale Multimodal Dataset of Voice Commands with Visual and Thermal Video Streams}, 
