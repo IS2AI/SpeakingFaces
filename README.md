@@ -88,7 +88,7 @@ Otherwise the ROI is defined manually:
 5. Alignment for all subjects can be done using **align_session_two_all.py** scripts based on the metadata stored in **metadata/session_2/** directory.
 
 ## [Thermal-Visible Image Translation](https://github.com/IS2AI/SpeakingFaces/tree/master/baseline_domain_transfer)
-
+<img src="https://raw.githubusercontent.com/IS2AI/SpeakingFaces/master/figures/thermal2visible.png" width="700">
 
 ## If you use this code in research, please cite the following paper:
 ```
