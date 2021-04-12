@@ -6,10 +6,6 @@ import cv2
 import os
 import argparse
 import insightface
-import sys
-
-# update code with the path to SpeakingFaces github repo
-sys.path.append('/home/sania_abushakimova/SpeakingFaces/')
 from speakingfacespy.imtools import make_dir
 
 # construct argument parser and parse the arguments
