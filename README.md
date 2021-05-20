@@ -1,7 +1,7 @@
 <img src="https://raw.githubusercontent.com/IS2AI/SpeakingFaces/master/figures/speakingface.jpg" width="1280">
 This repository contains the source code developed for collecting and preprocessing SpeakingFaces dataset. The SpeakingFaces consists of aligned high-resolution thermal and visual spectra image streams of fully-framed faces synchronized with audio recordings of each subject speaking 100 imperative phrases. Data were collected from 142 subjects, yielding over 13,000 instances of synchronized data (3.8 TB).
 
-Link to the paper: https://arxiv.org/pdf/2012.02961.pdf 
+Link to the published paper:https://www.mdpi.com/1424-8220/21/10/3465/htm 
 
 ## Dependencies
 ### For recording data
@@ -92,14 +92,23 @@ Otherwise the ROI is defined manually:
 
 ## If you use our dataset and/or this repo in your research, please cite the following paper:
 ```
-@misc{abdrakhmanova2020speakingfaces,
-      title={SpeakingFaces: A Large-Scale Multimodal Dataset of Voice Commands with Visual and Thermal Video Streams}, 
-      author={Madina Abdrakhmanova and Askat Kuzdeuov and Sheikh Jarju and Yerbolat Khassanov and Michael Lewis and Huseyin Atakan Varol},
-      year={2020},
-      eprint={2012.02961},
-      archivePrefix={arXiv},
-      primaryClass={cs.HC}
+
+@Article{s21103465,
+AUTHOR = {Abdrakhmanova, Madina and Kuzdeuov, Askat and Jarju, Sheikh and Khassanov, Yerbolat and Lewis, Michael and Varol, Huseyin Atakan},
+TITLE = {SpeakingFaces: A Large-Scale Multimodal Dataset of Voice Commands with Visual and Thermal Video Streams},
+JOURNAL = {Sensors},
+VOLUME = {21},
+YEAR = {2021},
+NUMBER = {10},
+ARTICLE-NUMBER = {3465},
+URL = {https://www.mdpi.com/1424-8220/21/10/3465},
+ISSN = {1424-8220},
+ABSTRACT = {We present SpeakingFaces as a publicly-available large-scale multimodal dataset developed to support machine learning research in contexts that utilize a combination of thermal, visual, and audio data streams; examples include human–computer interaction, biometric authentication, recognition systems, domain transfer, and speech recognition. SpeakingFaces is comprised of aligned high-resolution thermal and visual spectra image streams of fully-framed faces synchronized with audio recordings of each subject speaking approximately 100 imperative phrases. Data were collected from 142 subjects, yielding over 13,000 instances of synchronized data (∼3.8 TB). For technical validation, we demonstrate two baseline examples. The first baseline shows classification by gender, utilizing different combinations of the three data streams in both clean and noisy environments. The second example consists of thermal-to-visual facial image translation, as an instance of domain transfer.},
+DOI = {10.3390/s21103465}
 }
+
+
+
 ```
 
 
