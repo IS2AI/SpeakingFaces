@@ -48,12 +48,16 @@ python face_recognition_test.py --images ./GANs_results/fake_B_cut/ --thr 0.45
 
 ## If you use visible2thermal_speakingfaces dataset and/or the provided code in your research then please cite our paper:
 ```
-@misc{abdrakhmanova2020speakingfaces,
-      title={SpeakingFaces: A Large-Scale Multimodal Dataset of Voice Commands with Visual and Thermal Video Streams}, 
-      author={Madina Abdrakhmanova and Askat Kuzdeuov and Sheikh Jarju and Yerbolat Khassanov and Michael Lewis and Huseyin Atakan Varol},
-      year={2020},
-      eprint={2012.02961},
-      archivePrefix={arXiv},
-      primaryClass={cs.HC}
+@Article{s21103465,
+ AUTHOR = {Abdrakhmanova, Madina and Kuzdeuov, Askat and Jarju, Sheikh and Khassanov, Yerbolat and Lewis, Michael and Varol, Huseyin Atakan},
+ TITLE = {SpeakingFaces: A Large-Scale Multimodal Dataset of Voice Commands with Visual and Thermal Video Streams},
+ JOURNAL = {Sensors},
+ VOLUME = {21},
+ YEAR = {2021},
+ NUMBER = {10},
+ ARTICLE-NUMBER = {3465},
+ URL = {https://www.mdpi.com/1424-8220/21/10/3465},
+ ISSN = {1424-8220},
+ DOI = {10.3390/s21103465}
 }
 ```
